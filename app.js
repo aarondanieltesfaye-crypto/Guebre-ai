@@ -1,90 +1,219 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Guebre-ai est un assistant convivial et une plateforme d'actualités.">
-  <title>Guebre-ai — Assistant et Actualités</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <a class="skip-link" href="#main">Aller au contenu</a>
+(function () {
+  "use strict";
 
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="Accueil Guebre-ai">
-        <span class="brand-mark" aria-hidden="true"></span>
-        <span class="brand-name">Guebre-ai</span>
-      </a>
-      <nav class="main-nav" aria-label="Principal">
-        <a href="#assistant">Assistant</a>
-        <a href="#actualites">Actualités</a>
-        <a href="#about">À propos</a>
-      </nav>
-    </div>
-  </header>
+  var PLACEHOLDER_KEY = "YOUR_API_KEY_HERE";
+  var config = window.GUEBRE_CONFIG || {};
+  var apiKey = (config.GEMINI_API_KEY || "").trim();
+  var model = config.GEMINI_MODEL || "gemini-2.5-flash";
 
-  <main id="main">
-    <section class="hero" id="top">
-      <div class="container">
-        <p class="eyebrow">Assistant et plateforme d'actualités</p>
-        <h1>Des réponses claires. Des nouvelles scolaires fraîches.</h1>
-        <p class="lede">Guebre-ai aide les élèves et les familles à trouver des annonces, à lire des articles et à poser des questions à un assistant IA amical pour un soutien scolaire.</p>
-      </div>
-    </section>
+  var chatLog = document.getElementById("chat-log");
+  var chatForm = document.getElementById("chat-form");
+  var chatInput = document.getElementById("chat-input");
+  var sendButton = document.getElementById("send-button");
+  var statusText = document.getElementById("api-status");
+  var statusDot = document.getElementById("api-status-dot");
+  var articlesFeed = document.getElementById("articles-feed");
 
-    <section class="assistant-section" id="assistant">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Assistant IA</h2>
-          <p>Posez une question sur la vie scolaire, des idées de devoirs ou les dernières annonces.</p>
-        </div>
+  var articles = [
+    {
+      tag: "Annonce",
+      title: "Bienvenue pour le nouveau trimestre scolaire",
+      date: "31 août 2026",
+      body: "Les cours reprennent cette semaine. Veuillez vérifier votre emploi du temps et apporter les livres requis dès le premier jour."
+    },
+    {
+      tag: "Actualités",
+      title: "Horaires de la bibliothèque prolongés",
+      date: "28 août 2026",
+      body: "La bibliothèque de l'école restera ouverte jusqu'à 17h30 du lundi au jeudi afin que les élèves puissent terminer leurs devoirs dans un espace calme."
+    },
+    {
+      tag: "Clubs",
+      title: "Première réunion du club de sciences",
+      date: "2 septembre 2026",
+      body: "Rejoignez le club de sciences en salle B12 après les cours. Les nouveaux membres sont les bienvenus. Aucune expérience requise, seulement de la curiosité."
+    },
+    {
+      tag: "Communauté",
+      title: "Soirée d'information pour les familles",
+      date: "5 septembre 2026",
+      body: "Les parents et tuteurs sont invités à une soirée d'information sur les programmes scolaires, le sport et les services de soutien."
+    }
+  ];
 
-        <div class="chat-card" role="region" aria-label="Discussion Guebre-ai">
-          <div class="chat-toolbar">
-            <span class="status-dot" id="api-status-dot" aria-hidden="true"></span>
-            <p id="api-status" class="api-status">Vérification de la configuration de l'API…</p>
-          </div>
+  function hasValidKey() {
+    return Boolean(apiKey) && apiKey !== PLACEHOLDER_KEY;
+  }
 
-          <div id="chat-log" class="chat-log" aria-live="polite"></div>
+  function setStatus(kind, message) {
+    statusText.textContent = message;
+    statusDot.className = "status-dot " + kind;
+  }
 
-          <form id="chat-form" class="chat-form">
-            <label class="sr-only" for="chat-input">Votre question</label>
-            <textarea id="chat-input" name="message" rows="2" maxlength="2000" placeholder="Tapez votre question ici…" required></textarea>
-            <button type="submit" id="send-button" class="btn-primary">Envoyer</button>
-          </form>
-        </div>
-      </div>
-    </section>
+  function addMessage(role, text) {
+    var bubble = document.createElement("div");
+    bubble.className = "message " + role;
 
-    <section class="news-section" id="actualites">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Actualités</h2>
-          <p>Nouvelles scolaires, annonces et articles.</p>
-        </div>
-        <div id="articles-feed" class="articles-grid"></div>
-      </div>
-    </section>
+    var label = document.createElement("span");
+    label.className = "label";
+    if (role === "user") {
+      label.textContent = "Vous";
+    } else if (role === "assistant") {
+      label.textContent = "Guebre-ai";
+    } else {
+      label.textContent = "Avis";
+    }
 
-    <section class="about-section" id="about">
-      <div class="container about-card">
-        <h2>À propos de Guebre-ai</h2>
-        <p>Guebre-ai est un assistant convivial et une plateforme d'actualités. Cette première version est un prototype statique pouvant être hébergé gratuitement sur GitHub Pages.</p>
-      </div>
-    </section>
-  </main>
+    var body = document.createElement("div");
+    body.textContent = text;
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2026 Guebre-ai. Conçu comme une base ouverte pour les actualités scolaires et des réponses utiles.</p>
-    </div>
-  </footer>
+    bubble.appendChild(label);
+    bubble.appendChild(body);
+    chatLog.appendChild(bubble);
+    chatLog.scrollTop = chatLog.scrollHeight;
+    return bubble;
+  }
 
-  <script src="config.js"></script>
-  <script src="app.js"></script>
-</body>
-</html>
+  function renderArticles() {
+    articlesFeed.innerHTML = "";
+    articles.forEach(function (item) {
+      var card = document.createElement("article");
+      card.className = "article-card";
+      card.innerHTML =
+        '<span class="tag"></span>' +
+        "<h3></h3>" +
+        '<p class="meta"></p>' +
+        "<p></p>";
+      card.querySelector(".tag").textContent = item.tag;
+      card.querySelector("h3").textContent = item.title;
+      card.querySelector(".meta").textContent = item.date;
+      card.querySelectorAll("p")[1].textContent = item.body;
+      articlesFeed.appendChild(card);
+    });
+  }
+
+  function missingKeyMessage() {
+    return (
+      "Pour tester l'assistant, ouvrez config.js et remplacez YOUR_API_KEY_HERE par votre clé API Gemini gratuite. " +
+      "Gardez la clé réelle privée et ne la publiez pas dans ce dépôt public."
+    );
+  }
+
+  async function askGemini(prompt) {
+    var endpoint =
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      encodeURIComponent(model) +
+      ":generateContent?key=" +
+      encodeURIComponent(apiKey);
+
+    var payload = {
+      systemInstruction: {
+        parts: [
+          {
+            text:
+              "Tu es Guebre-ai, un assistant scolaire amical et une aide aux actualités. " +
+              "Donne des réponses claires, bienveillantes et adaptées à l'âge des élèves. Utilise un langage adapté aux étudiants. " +
+              "Si une question ne porte pas sur l'école, l'apprentissage ou des connaissances générales, réponds quand même de façon utile et brève. " +
+              "Réponds toujours en français."
+          }
+        ]
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: prompt }]
+        }
+      ]
+    };
+
+    var response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    var data;
+    try {
+      data = await response.json();
+    } catch (error) {
+      throw new Error("Le service Gemini a renvoyé une réponse illisible.");
+    }
+
+    if (!response.ok) {
+      var apiMessage =
+        (data && data.error && data.error.message) ||
+        "La requête Gemini a échoué (" + response.status + ").";
+      throw new Error(apiMessage);
+    }
+
+    var text =
+      data &&
+      data.candidates &&
+      data.candidates[0] &&
+      data.candidates[0].content &&
+      data.candidates[0].content.parts &&
+      data.candidates[0].content.parts
+        .map(function (part) {
+          return part.text || "";
+        })
+        .join("\n")
+        .trim();
+
+    if (!text) {
+      throw new Error("Gemini n'a renvoyé aucun texte. Essayez une autre question.");
+    }
+
+    return text;
+  }
+
+  async function onSubmit(event) {
+    event.preventDefault();
+    var prompt = chatInput.value.trim();
+    if (!prompt) {
+      return;
+    }
+
+    addMessage("user", prompt);
+    chatInput.value = "";
+
+    if (!hasValidKey()) {
+      addMessage("system", missingKeyMessage());
+      setStatus("missing", "Clé API manquante. Ajoutez-la dans config.js pour activer le chat.");
+      return;
+    }
+
+    sendButton.disabled = true;
+    var thinking = addMessage("assistant", "Réflexion en cours…");
+
+    try {
+      var answer = await askGemini(prompt);
+      thinking.querySelector("div").textContent = answer;
+    } catch (error) {
+      thinking.className = "message system";
+      thinking.querySelector(".label").textContent = "Avis";
+      thinking.querySelector("div").textContent =
+        error && error.message
+          ? error.message
+          : "Une erreur s'est produite lors de la connexion à Gemini.";
+      setStatus("error", "La dernière requête a échoué. Vérifiez votre clé et réessayez.");
+    } finally {
+      sendButton.disabled = false;
+      chatInput.focus();
+    }
+  }
+
+  renderArticles();
+
+  if (hasValidKey()) {
+    setStatus("ready", "Gemini Flash est configuré. Vous pouvez commencer une conversation.");
+    addMessage(
+      "assistant",
+      "Bonjour. Je suis Guebre-ai. Posez-moi des questions sur les actualités scolaires, des conseils d'étude ou un sujet que vous aimeriez voir expliqué clairement."
+    );
+  } else {
+    setStatus("missing", "Aucune clé API pour le moment. Ajoutez votre clé Gemini dans config.js.");
+    addMessage("system", missingKeyMessage());
+  }
+
+  chatForm.addEventListener("submit", onSubmit);
+})();
