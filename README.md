@@ -1,54 +1,54 @@
 # Guebre-ai
 
-Guebre-ai is a user-friendly assistant and news platform.
+Guebre-ai est un assistant convivial et une plateforme d'actualités.
 
-This project is a clean, responsive single-page application for school news, announcements, and a prototype AI chat assistant powered by Google Gemini Flash.
+Ce projet est une application monopage claire et responsive, destinée aux actualités scolaires, aux annonces et à un prototype d'assistant IA alimenté par Google Gemini Flash. Toute l'interface est en français.
 
-## Features
+## Fonctionnalités
 
-- Responsive layout that works on phones, tablets, and desktops
-- Navigation header with the Guebre-ai title
-- AI chat prototype for helpful, school-appropriate questions
-- Actualités section for school news and announcements
-- French-flag color theme: bleu `#002395`, blanc `#FFFFFF`, rouge `#ED2939`
-- Ready for free hosting on GitHub Pages
+- Mise en page responsive pour téléphone, tablette et ordinateur
+- En-tête de navigation avec le titre Guebre-ai
+- Prototype de discussion IA pour des questions utiles et adaptées au milieu scolaire
+- Section Actualités pour les nouvelles et les annonces de l'école
+- Thème aux couleurs du drapeau français : bleu `#002395`, blanc `#FFFFFF`, rouge `#ED2939`
+- Prêt pour un hébergement gratuit sur GitHub Pages
 
-## Files
+## Fichiers
 
-| File | Purpose |
+| Fichier | Rôle |
 | --- | --- |
-| `index.html` | Page structure and sections |
-| `styles.css` | Theme, layout, and responsive styles |
-| `app.js` | Chat UI, articles rendering, and Gemini API calls |
-| `config.js` | Placeholder for your Gemini API key |
-| `.gitignore` | Standard ignore rules for local files |
+| `index.html` | Structure de la page et sections |
+| `styles.css` | Thème, mise en page et styles responsive |
+| `app.js` | Interface de discussion, articles et appels à l'API Gemini |
+| `config.js` | Emplacement de votre clé API Gemini |
+| `.gitignore` | Fichiers locaux à ne pas versionner |
 
-## Add your Gemini API key (local testing)
+## Ajouter votre clé API Gemini (test local)
 
-1. Open `config.js`.
-2. Replace `YOUR_API_KEY_HERE` with your free Gemini API key.
-3. Keep that key private. Do not commit a real key to a public repository.
+1. Ouvrez `config.js`.
+2. Remplacez `YOUR_API_KEY_HERE` par votre clé API Gemini gratuite.
+3. Gardez cette clé privée. Ne la publiez pas dans un dépôt public.
 
-The key is read from `window.GUEBRE_CONFIG.GEMINI_API_KEY` in `app.js`.
+La clé est lue depuis `window.GUEBRE_CONFIG.GEMINI_API_KEY` dans `app.js`.
 
-If the placeholder is still present, the chat box will show a helpful message instead of calling the API.
+Si le texte de remplacement est encore présent, la zone de discussion affiche un message d'aide au lieu d'appeler l'API.
 
-## Enable GitHub Pages
+## Activer GitHub Pages
 
-1. Open the repository on GitHub.
-2. Go to **Settings** → **Pages**.
-3. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-4. Choose branch **main** and folder **/ (root)**.
-5. Click **Save**.
+1. Ouvrez le dépôt sur GitHub.
+2. Allez dans **Settings** → **Pages**.
+3. Sous **Build and deployment**, choisissez **Deploy from a branch**.
+4. Sélectionnez la branche **main** et le dossier **/ (root)**.
+5. Cliquez sur **Save**.
 
-After a minute or two, the site will be available at:
+Après une ou deux minutes, le site sera disponible à l'adresse :
 
 `https://aarondanieltesfaye-crypto.github.io/Guebre-ai/`
 
-## Local preview
+## Aperçu local
 
-Open `index.html` in a browser, or serve the folder with any static file server. All asset paths are relative so the page works both locally and on GitHub Pages.
+Ouvrez `index.html` dans un navigateur, ou servez le dossier avec n'importe quel serveur de fichiers statiques. Tous les chemins sont relatifs, donc la page fonctionne en local et sur GitHub Pages.
 
-## Note about API keys
+## Note sur les clés API
 
-This is a client-side prototype. A browser-exposed key is only for personal testing. For a public production site, move the Gemini call to a backend or serverless function so the key stays secret.
+Ceci est un prototype côté navigateur. Une clé visible dans le navigateur sert uniquement aux tests personnels. Pour un site public, déplacez l'appel Gemini vers un serveur afin de garder la clé secrète.

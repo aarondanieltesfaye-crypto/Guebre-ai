@@ -1,10 +1,10 @@
 /**
- * Guebre-ai configuration
+ * Configuration de Guebre-ai
  *
- * For local testing, paste your Gemini Flash API key below.
- * Replace YOUR_API_KEY_HERE with the key from Google AI Studio.
+ * Pour tester en local, collez votre clé API Gemini Flash ci-dessous.
+ * Remplacez YOUR_API_KEY_HERE par la clé obtenue dans Google AI Studio.
  *
- * Do not commit a real key to this public repository.
+ * Ne commitez pas une vraie clé dans ce dépôt public.
  */
 window.GUEBRE_CONFIG = {
   GEMINI_API_KEY: "YOUR_API_KEY_HERE",
