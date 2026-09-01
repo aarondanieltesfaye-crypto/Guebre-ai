@@ -1,0 +1,45 @@
+.usage-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 6px 12px;
+  align-items: center;
+  padding: 12px 14px;
+  max-width: 280px;
+  margin-left: auto;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(60, 207, 122, 0.28), transparent 46%),
+    linear-gradient(160deg, #edfbf2 0%, #d8f3e3 100%);
+  border: 1px solid rgba(7, 137, 48, 0.22);
+  box-shadow: 0 10px 28px rgba(7, 137, 48, 0.12), inset 0 1px 0 rgba(255,255,255,0.7);
+}
+html[data-mode="dark"] .usage-card {
+  background: radial-gradient(circle at 12% 20%, rgba(60, 207, 122, 0.18), transparent 46%), #163024;
+  border-color: #2f6a45;
+}
+.usage-leaf {
+  grid-row: 1 / span 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, #3ccf7a, #078930);
+  box-shadow: 0 0 0 4px rgba(7, 137, 48, 0.12), 0 8px 16px rgba(7, 137, 48, 0.2);
+}
+.usage-leaf svg { width: 18px; height: 18px; display: block; }
+.usage-kicker {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+}
+.usage-count {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.usage-track { grid-column: 2; margin: 0; height: 6px; }
+.usage-en, .usage-fr { display: none; }
+@media (max-width: 800px) {
+  .usage-card { max-width: none; margin-left: 0; }
+}
