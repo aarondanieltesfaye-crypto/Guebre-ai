@@ -9,7 +9,7 @@ const RETIRED_MODELS = {
 
 const corpus = require("../knowledge/lgm-corpus");
 
-function buildSystemPrompt() {
+function buildSystemPrompt(uiLang) {
   var docs = corpus
     .map(function (doc) {
       return (
@@ -25,9 +25,17 @@ function buildSystemPrompt() {
     })
     .join("\n\n");
 
+  var ui =
+    uiLang === "en"
+      ? "The website language is English. Prefer English unless the latest user message is clearly in another language."
+      : uiLang === "am"
+        ? "The website language is Amharic. Prefer Amharic unless the latest user message is clearly in another language."
+        : "The website language is French. Prefer French unless the latest user message is clearly in another language.";
+
   return (
     "You are Guebre-ai, the school assistant for Lycée Guebre-Mariam (LGM) in Addis Ababa.\n" +
-    "LANGUAGE RULE (highest priority): Answer in the same language as the user's latest message. " +
+    ui +
+    "\nLANGUAGE RULE (highest priority): Answer in the same language as the user's latest message. " +
     "English question → English answer. French → French. Amharic → Amharic. " +
     "If the message mixes languages, use the main language of that question.\n" +
     "SCHOOL FACTS: For LGM dates, holidays, rules, who-to-ask, or school news, use ONLY the source documents below. " +
@@ -75,7 +83,7 @@ function normalizeMessages(input) {
     .slice(-12);
 }
 
-async function callGroq(apiKey, model, history) {
+async function callGroq(apiKey, model, history, uiLang) {
   var response = await fetch(GROQ_URL, {
     method: "POST",
     headers: {
@@ -85,7 +93,7 @@ async function callGroq(apiKey, model, history) {
     body: JSON.stringify({
       model: model,
       temperature: 0.3,
-      messages: [{ role: "system", content: buildSystemPrompt() }].concat(history)
+      messages: [{ role: "system", content: buildSystemPrompt(uiLang) }].concat(history)
     })
   });
 
@@ -140,15 +148,16 @@ async function handleChatRequest(rawBody, apiKey) {
   }
 
   var model = resolveModel();
+  var uiLang = parsed.language === "en" || parsed.language === "am" || parsed.language === "fr" ? parsed.language : "fr";
   var result;
   try {
-    result = await callGroq(apiKey, model, history);
+    result = await callGroq(apiKey, model, history, uiLang);
     if (
       !result.ok &&
       model !== DEFAULT_MODEL &&
       /does not exist|do not have access|model/i.test(result.error || "")
     ) {
-      result = await callGroq(apiKey, DEFAULT_MODEL, history);
+      result = await callGroq(apiKey, DEFAULT_MODEL, history, uiLang);
     }
   } catch (error) {
     return { status: 502, body: { error: "Impossible de joindre Groq pour le moment." } };
