@@ -66,18 +66,18 @@
               <path d="M12 21V7" stroke="#078930" stroke-width="1.6" stroke-linecap="round"/>
             </svg>
           </span>
-          <p class="usage-kicker" data-i18n="usageKicker">Quota quotidien</p>
-          <p class="usage-count"><span id="usage-left">15</span> / <span id="usage-max">15</span></p>
+          <p class="usage-count"><span id="usage-left">15</span>/<span id="usage-max">15</span></p>
+          <p class="usage-kicker" data-i18n="usageKicker">Quota</p>
           <div class="usage-track" aria-hidden="true"><span id="usage-fill" class="usage-fill"></span></div>
-          <p class="usage-en" id="usage-en">15 questions left today</p>
-          <p class="usage-fr" id="usage-fr">15 questions restantes aujourd'hui</p>
+          <p class="usage-en" id="usage-en"></p>
+          <p class="usage-fr" id="usage-fr"></p>
         </aside>
       </div>
     </section>
     <section class="assistant-section" id="assistant">
       <div class="container">
         <div class="section-heading">
-          <h2 data-i18n="assistantTitle">Assistant IA</h2>
+          <h2 data-i18n="assistantTitle">Assistant</h2>
           <p data-i18n="assistantIntro">Posez une question sur la vie scolaire ou le calendrier.</p>
         </div>
         <div class="chips" id="quick-chips"></div>
@@ -108,7 +108,8 @@
     <section class="about-section" id="about">
       <div class="container about-card">
         <h2 data-i18n="aboutTitle">À propos de Guebre-ai</h2>
-        <p data-i18n="aboutBody">Guebre-ai est l'assistant du Lycée Guebre-Mariam. Il cite les documents de l'école. La clé API reste sur le serveur.</p>
+        <p id="about-lead"></p>
+        <ul id="about-list"></ul>
       </div>
     </section>
   </main>
@@ -129,5 +130,6 @@
   <script src="config.js"></script>
   <script src="themes.js"></script>
   <script src="app.js"></script>
+  <script src="site-copy.js"></script>
 </body>
 </html>
