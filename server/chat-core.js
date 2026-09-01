@@ -7,12 +7,37 @@ const RETIRED_MODELS = {
   "llama3-70b-8192": true
 };
 
-const SYSTEM_PROMPT =
-  "Tu es Guebre-ai, un assistant scolaire amical et une aide aux actualités. " +
-  "Donne des réponses claires, bienveillantes et adaptées aux élèves. " +
-  "Utilise un langage simple et respectueux. " +
-  "Si une question ne porte pas sur l'école, l'apprentissage ou des connaissances générales, réponds quand même de façon utile et brève. " +
-  "Réponds toujours en français.";
+const corpus = require("../knowledge/lgm-corpus");
+
+function buildSystemPrompt() {
+  var docs = corpus
+    .map(function (doc) {
+      return (
+        "### " +
+        doc.title +
+        "\nDate : " +
+        doc.date +
+        "\nPropriétaire : " +
+        doc.owner +
+        "\n" +
+        doc.text
+      );
+    })
+    .join("\n\n");
+
+  return (
+    "You are Guebre-ai, the school assistant for Lycée Guebre-Mariam (LGM) in Addis Ababa.\n" +
+    "LANGUAGE RULE (highest priority): Answer in the same language as the user's latest message. " +
+    "English question → English answer. French → French. Amharic → Amharic. " +
+    "If the message mixes languages, use the main language of that question.\n" +
+    "SCHOOL FACTS: For LGM dates, holidays, rules, who-to-ask, or school news, use ONLY the source documents below. " +
+    "Cite the document title. If the answer is not in those documents, say you do not have an official document and tell the user to contact vie scolaire. Do not guess a date.\n" +
+    "GENERAL CHAT: Greetings and ordinary explanations are allowed without a school source.\n" +
+    "SAFETY: Be kind and age-appropriate. Do not write homework, essays, or exam answers. Never invent grades, attendance, or discipline records.\n\n" +
+    "SOURCE DOCUMENTS:\n" +
+    docs
+  );
+}
 
 function corsHeaders() {
   return {
@@ -59,8 +84,8 @@ async function callGroq(apiKey, model, history) {
     },
     body: JSON.stringify({
       model: model,
-      temperature: 0.7,
-      messages: [{ role: "system", content: SYSTEM_PROMPT }].concat(history)
+      temperature: 0.3,
+      messages: [{ role: "system", content: buildSystemPrompt() }].concat(history)
     })
   });
 

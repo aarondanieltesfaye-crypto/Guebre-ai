@@ -14,28 +14,28 @@
 
   var articles = [
     {
-      tag: "Annonce",
-      title: "Bienvenue pour le nouveau trimestre scolaire",
-      date: "31 août 2026",
-      body: "Les cours reprennent cette semaine. Veuillez vérifier votre emploi du temps et apporter les livres requis dès le premier jour."
+      tag: "Rentrée",
+      title: "Rentrée des élèves le mercredi 2 septembre 2026",
+      date: "Calendrier LGM 2026-2027",
+      body: "La prérentrée des enseignants a lieu le mardi 1er septembre. Les élèves reprennent le mercredi 2 septembre 2026."
     },
     {
-      tag: "Actualités",
-      title: "Horaires de la bibliothèque prolongés",
-      date: "28 août 2026",
-      body: "La bibliothèque de l'école restera ouverte jusqu'à 17h30 du lundi au jeudi afin que les élèves puissent terminer leurs devoirs dans un espace calme."
+      tag: "Jour férié",
+      title: "Nouvel An éthiopien (Addis Amet)",
+      date: "11 septembre 2026",
+      body: "Le lycée est fermé le 11 septembre 2026 pour le Nouvel An éthiopien, selon le calendrier scolaire officiel."
     },
     {
-      tag: "Clubs",
-      title: "Première réunion du club de sciences",
-      date: "2 septembre 2026",
-      body: "Rejoignez le club de sciences en salle B12 après les cours. Les nouveaux membres sont les bienvenus. Aucune expérience requise, seulement de la curiosité."
+      tag: "Jour férié",
+      title: "Fête de la Croix (Meskel)",
+      date: "27 septembre 2026",
+      body: "Fermeture le 27 septembre 2026 pour Meskel. Source : calendrier scolaire Lycée Guebre-Mariam 2026-2027."
     },
     {
       tag: "Communauté",
-      title: "Soirée d'information pour les familles",
-      date: "5 septembre 2026",
-      body: "Les parents et tuteurs sont invités à une soirée d'information sur les programmes scolaires, le sport et les services de soutien."
+      title: "Guebre-ai répond à partir des documents de l'école",
+      date: "1er septembre 2026",
+      body: "L'assistant cite le calendrier et d'autres textes officiels. S'il n'a pas la source, il vous oriente vers la vie scolaire."
     }
   ];
 
@@ -99,10 +99,7 @@
   function backendHint() {
     var host = window.location.hostname;
     if (host.indexOf("github.io") !== -1) {
-      return (
-        "GitHub Pages ne peut pas cacher une clé API. Publiez ce dépôt sur Netlify (gratuit) et ajoutez GROQ_API_KEY dans les variables d'environnement. " +
-        "Les visiteurs n'auront jamais à saisir de clé."
-      );
+      return "Publiez ce projet sur Netlify pour activer l'assistant.";
     }
     return "L'assistant parle à un serveur interne. Aucune clé n'est demandée aux visiteurs.";
   }
@@ -148,7 +145,7 @@
     addMessage("user", prompt);
     chatInput.value = "";
     sendButton.disabled = true;
-    var thinking = addMessage("assistant", "Réflexion en cours…");
+    var thinking = addMessage("assistant", "…");
 
     try {
       var answer = await askBackend(prompt);
@@ -172,11 +169,11 @@
   renderArticles();
   addMessage(
     "assistant",
-    "Bonjour. Je suis Guebre-ai. Posez-moi une question : vous n'avez pas besoin d'entrer de clé API."
+    "Bonjour — hello. Je suis Guebre-ai. Posez une question en français, en anglais ou en amharique. J'ai le calendrier scolaire LGM 2026-2027."
   );
 
   if (window.location.hostname.indexOf("github.io") !== -1) {
-    setStatus("missing", "Hébergez le site sur Netlify pour activer l'assistant sans clé côté visiteur.");
+    setStatus("missing", "Hébergez le site sur Netlify pour activer l'assistant.");
   } else {
     setStatus("ready", "Assistant prêt. La clé API reste sur le serveur.");
   }
