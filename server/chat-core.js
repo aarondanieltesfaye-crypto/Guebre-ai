@@ -1,5 +1,11 @@
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const DEFAULT_MODEL = "llama-3.1-8b-instant";
+const DEFAULT_MODEL = "openai/gpt-oss-20b";
+const RETIRED_MODELS = {
+  "llama-3.1-8b-instant": true,
+  "llama-3.3-70b-versatile": true,
+  "llama3-8b-8192": true,
+  "llama3-70b-8192": true
+};
 
 const SYSTEM_PROMPT =
   "Tu es Guebre-ai, un assistant scolaire amical et une aide aux actualités. " +
@@ -14,6 +20,14 @@ function corsHeaders() {
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS"
   };
+}
+
+function resolveModel() {
+  var requested = (process.env.GROQ_MODEL || DEFAULT_MODEL).trim();
+  if (!requested || RETIRED_MODELS[requested]) {
+    return DEFAULT_MODEL;
+  }
+  return requested;
 }
 
 function normalizeMessages(input) {
@@ -34,6 +48,48 @@ function normalizeMessages(input) {
       return item.content.length > 0;
     })
     .slice(-12);
+}
+
+async function callGroq(apiKey, model, history) {
+  var response = await fetch(GROQ_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + apiKey
+    },
+    body: JSON.stringify({
+      model: model,
+      temperature: 0.7,
+      messages: [{ role: "system", content: SYSTEM_PROMPT }].concat(history)
+    })
+  });
+
+  var data;
+  try {
+    data = await response.json();
+  } catch (error) {
+    return { ok: false, status: 502, error: "Groq a renvoyé une réponse illisible." };
+  }
+
+  if (!response.ok) {
+    var apiMessage =
+      (data && data.error && data.error.message) ||
+      "La requete Groq a echoue (" + response.status + ").";
+    return { ok: false, status: response.status, error: apiMessage };
+  }
+
+  var text =
+    data &&
+    data.choices &&
+    data.choices[0] &&
+    data.choices[0].message &&
+    data.choices[0].message.content;
+
+  if (!text || !String(text).trim()) {
+    return { ok: false, status: 502, error: "Groq n'a renvoyé aucun texte." };
+  }
+
+  return { ok: true, text: String(text).trim() };
 }
 
 async function handleChatRequest(rawBody, apiKey) {
@@ -58,51 +114,26 @@ async function handleChatRequest(rawBody, apiKey) {
     return { status: 400, body: { error: "Ajoutez au moins un message." } };
   }
 
-  var model = process.env.GROQ_MODEL || DEFAULT_MODEL;
-  var response;
+  var model = resolveModel();
+  var result;
   try {
-    response = await fetch(GROQ_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + apiKey
-      },
-      body: JSON.stringify({
-        model: model,
-        temperature: 0.7,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }].concat(history)
-      })
-    });
+    result = await callGroq(apiKey, model, history);
+    if (
+      !result.ok &&
+      model !== DEFAULT_MODEL &&
+      /does not exist|do not have access|model/i.test(result.error || "")
+    ) {
+      result = await callGroq(apiKey, DEFAULT_MODEL, history);
+    }
   } catch (error) {
     return { status: 502, body: { error: "Impossible de joindre Groq pour le moment." } };
   }
 
-  var data;
-  try {
-    data = await response.json();
-  } catch (error) {
-    return { status: 502, body: { error: "Groq a renvoyé une réponse illisible." } };
+  if (!result.ok) {
+    return { status: result.status || 502, body: { error: result.error } };
   }
 
-  if (!response.ok) {
-    var apiMessage =
-      (data && data.error && data.error.message) ||
-      "La requete Groq a echoue (" + response.status + ").";
-    return { status: response.status, body: { error: apiMessage } };
-  }
-
-  var text =
-    data &&
-    data.choices &&
-    data.choices[0] &&
-    data.choices[0].message &&
-    data.choices[0].message.content;
-
-  if (!text || !String(text).trim()) {
-    return { status: 502, body: { error: "Groq n'a renvoyé aucun texte." } };
-  }
-
-  return { status: 200, body: { reply: String(text).trim() } };
+  return { status: 200, body: { reply: result.text } };
 }
 
 module.exports = {
