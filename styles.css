@@ -221,6 +221,34 @@ h1 {
   font-size: 0.92rem;
 }
 
+.key-form,
+.chat-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+.key-form {
+  margin-bottom: 12px;
+}
+
+.key-form input,
+.chat-form textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.key-form input {
+  min-height: 48px;
+}
+
+.key-form.is-configured input {
+  background: #f8f9fd;
+}
+
 .chat-log {
   min-height: 260px;
   max-height: 420px;
@@ -269,24 +297,18 @@ h1 {
 }
 
 .chat-form {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
   margin-top: 12px;
 }
 
 .chat-form textarea {
-  width: 100%;
   resize: vertical;
   min-height: 52px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 10px 12px;
-  font: inherit;
 }
 
 .chat-form textarea:focus,
-.chat-form button:focus-visible {
+.chat-form button:focus-visible,
+.key-form input:focus,
+.key-form button:focus-visible {
   outline: 3px solid rgba(0, 35, 149, 0.25);
   outline-offset: 1px;
 }
@@ -380,7 +402,8 @@ h1 {
     padding: 12px 0;
   }
 
-  .chat-form {
+  .chat-form,
+  .key-form {
     grid-template-columns: 1fr;
   }
 }

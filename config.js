@@ -1,12 +1,12 @@
 /**
  * Configuration de Guebre-ai
  *
- * Pour tester en local, collez votre clé API Gemini Flash ci-dessous.
- * Remplacez YOUR_API_KEY_HERE par la clé obtenue dans Google AI Studio.
- *
- * Ne commitez pas une vraie clé dans ce dépôt public.
+ * Ne commitez jamais une vraie clé dans ce dépôt public.
+ * Sur le site, collez la clé DeepSeek dans le champ prévu à cet effet.
+ * Elle reste enregistrée uniquement dans votre navigateur.
  */
 window.GUEBRE_CONFIG = {
-  GEMINI_API_KEY: "YOUR_API_KEY_HERE",
-  GEMINI_MODEL: "gemini-2.5-flash"
+  DEEPSEEK_API_KEY: "YOUR_API_KEY_HERE",
+  DEEPSEEK_MODEL: "deepseek-chat",
+  DEEPSEEK_API_URL: "https://api.deepseek.com/chat/completions"
 };
