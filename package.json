@@ -1,0 +1,12 @@
+{
+  "name": "guebre-ai",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Assistant scolaire et plateforme d'actualites",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

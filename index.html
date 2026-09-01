@@ -46,14 +46,8 @@
         <div class="chat-card" role="region" aria-label="Discussion Guebre-ai">
           <div class="chat-toolbar">
             <span class="status-dot" id="api-status-dot" aria-hidden="true"></span>
-            <p id="api-status" class="api-status">Vérification de la configuration de l'API…</p>
+            <p id="api-status" class="api-status">Connexion à l'assistant…</p>
           </div>
-
-          <form id="key-form" class="key-form">
-            <label class="sr-only" for="api-key-input">Clé API DeepSeek</label>
-            <input id="api-key-input" type="password" autocomplete="off" placeholder="Collez votre clé API DeepSeek (sk-...)">
-            <button type="submit" class="btn-primary" id="save-key-button">Enregistrer</button>
-          </form>
 
           <div id="chat-log" class="chat-log" aria-live="polite"></div>
 
@@ -79,7 +73,7 @@
     <section class="about-section" id="about">
       <div class="container about-card">
         <h2>À propos de Guebre-ai</h2>
-        <p>Guebre-ai est un assistant convivial et une plateforme d'actualités, propulsé par DeepSeek. Cette première version est un prototype statique pouvant être hébergé gratuitement sur GitHub Pages.</p>
+        <p>Guebre-ai est un assistant convivial et une plateforme d'actualités. Les visiteurs parlent à l'assistant sans jamais voir ni saisir de clé API : celle-ci reste sur le serveur.</p>
       </div>
     </section>
   </main>
