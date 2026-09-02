@@ -5,373 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Guebre-ai — assistant scolaire du Lycée Guebre-Mariam.">
   <title>Guebre-ai</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap"
-    rel="stylesheet"
-  >
-
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="theme-ui.css">
-
   <script>
     (function () {
       var p = localStorage.getItem("guebre-palette") === "et" ? "et" : "fr";
       var m = localStorage.getItem("guebre-mode") === "dark" ? "dark" : "light";
-
       document.documentElement.setAttribute("data-palette", p);
       document.documentElement.setAttribute("data-mode", m);
     })();
   </script>
 </head>
-
 <body>
-
-  <a class="skip-link" href="#main" data-i18n="skip">
-    Aller au contenu
-  </a>
-
+  <a class="skip-link" href="#main" data-i18n="skip">Aller au contenu</a>
   <header class="site-header">
     <div class="container header-inner">
-
       <a class="brand" href="#top">
         <span class="brand-mark" aria-hidden="true"></span>
         <span class="brand-name">Guebre-ai</span>
       </a>
-
       <nav class="main-nav">
         <a href="#assistant" data-i18n="navAssistant">Assistant</a>
         <a href="#actualites" data-i18n="navNews">Actualités</a>
         <a href="#about" data-i18n="navAbout">À propos</a>
       </nav>
-
       <div class="header-tools">
-
         <div class="lang-switch" role="radiogroup" aria-label="Language">
-          <button
-            type="button"
-            class="lang-btn"
-            data-set-lang="fr"
-            aria-pressed="true"
-          >
-            FR
-          </button>
-
-          <button
-            type="button"
-            class="lang-btn"
-            data-set-lang="en"
-            aria-pressed="false"
-          >
-            EN
-          </button>
-
-          <button
-            type="button"
-            class="lang-btn"
-            data-set-lang="am"
-            aria-pressed="false"
-          >
-            አማ
-          </button>
+          <button type="button" class="lang-btn" data-set-lang="fr" aria-pressed="true">FR</button>
+          <button type="button" class="lang-btn" data-set-lang="en" aria-pressed="false">EN</button>
+          <button type="button" class="lang-btn" data-set-lang="am" aria-pressed="false">አማ</button>
         </div>
-
         <div class="settings-wrap">
-
-          <button
-            type="button"
-            class="settings-btn"
-            id="settings-toggle"
-            aria-expanded="false"
-            aria-controls="settings-menu"
-            aria-label="Settings"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              class="settings-gear"
-            >
-              <path
-                d="M12 8.5a3.5 3.5 0 1 0 0 7
-                3.5 3.5 0 0 0 0-7Zm8.1 3.5
-                c0-.42-.04-.84-.1-1.24l1.68-1.3
-                -1.8-3.12-2 .8a8.63 8.63 0 0 0-2.14-1.24
-                L15.44 3h-3.6l-.3 2.9a8.63 8.63 0 0 0-2.14 1.24
-                l-2-.8-1.8 3.12 1.68 1.3
-                c-.06.4-.1.82-.1 1.24
-                s.04.84.1 1.24l-1.68 1.3
-                1.8 3.12 2-.8a8.63 8.63 0 0 0 2.14 1.24
-                l.3 2.9h3.6l.3-2.9
-                a8.63 8.63 0 0 0 2.14-1.24
-                l2 .8 1.8-3.12-1.68-1.3
-                c.06-.4-.1-.82-.1-1.24Z"
-              />
-            </svg>
-
-            <span data-i18n="settings">Paramètres</span>
+          <button type="button" class="settings-btn" id="settings-toggle" aria-expanded="false" aria-controls="settings-menu" aria-label="Paramètres" onclick="window.guebreToggleSettings && window.guebreToggleSettings(event)">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="settings-gear"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.2 7.2 0 0 0-1.63-.94L14.5 2.5a.5.5 0 0 0-.5-.4h-3.84a.5.5 0 0 0-.5.4l-.36 2.54c-.59.24-1.13.55-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.76 8.56a.5.5 0 0 0 .12.64L4.91 10.8c-.04.31-.06.63-.06.94s.02.63.06.94L2.88 14.26a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.43.34.68.22l2.39-.96c.5.39 1.04.7 1.63.94l.36 2.54c.05.22.26.4.5.4h3.84c.24 0 .45-.18.5-.4l.36-2.54c.59-.24 1.13-.55 1.63-.94l2.39.96c.25.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
           </button>
-
-          <div
-            class="settings-menu"
-            id="settings-menu"
-            hidden
-          >
-
-            <button
-              type="button"
-              class="settings-item"
-              id="ethiopia-toggle"
-              aria-pressed="false"
-            >
-              <span
-                class="settings-icon theme-dot et"
-                aria-hidden="true"
-              ></span>
-
-              <span data-i18n="themeEthiopia">
-                Éthiopie
-              </span>
+          <div class="settings-menu" id="settings-menu">
+            <button type="button" class="settings-item" id="ethiopia-toggle" aria-pressed="false">
+              <span class="settings-icon theme-dot et" aria-hidden="true"></span>
+              <span data-i18n="themeEthiopia">Éthiopie</span>
             </button>
-
-            <button
-              type="button"
-              class="settings-item"
-              id="dark-toggle"
-              aria-pressed="false"
-            >
-              <span
-                class="settings-icon theme-dot dark"
-                aria-hidden="true"
-              ></span>
-
-              <span data-i18n="themeDark">
-                Sombre
-              </span>
+            <button type="button" class="settings-item" id="dark-toggle" aria-pressed="false">
+              <span class="settings-icon theme-dot dark" aria-hidden="true"></span>
+              <span data-i18n="themeDark">Sombre</span>
             </button>
-
-            <a
-              class="settings-item settings-link"
-              href="mailto:aarondanieltesfaye@gmail.com?subject=Remarques%20sur%20Guebre-ai"
-            >
-              <span
-                class="settings-icon remarks-symbol"
-                aria-hidden="true"
-              >✎</span>
-
-              <span data-i18n="remarks">
-                Remarques
-              </span>
+            <a class="settings-item settings-link" href="mailto:aarondanieltesfaye@gmail.com?subject=Remarques%20Guebre-ai">
+              <span class="settings-icon remarks-symbol" aria-hidden="true">✎</span>
+              <span data-i18n="remarks">Remarques</span>
             </a>
-
           </div>
         </div>
-
       </div>
     </div>
   </header>
-
   <main id="main">
-
     <section class="hero" id="top">
       <div class="container">
-
-        <p class="eyebrow" data-i18n="eyebrow">
-          Lycée Guebre-Mariam
-        </p>
-
-        <h1 data-i18n="heroTitle">
-          Des réponses claires. Des actualités à jour.
-        </h1>
-
-        <p class="lede" data-i18n="heroLede">
-          Guebre-ai aide les élèves et les familles à poser des questions et à lire les annonces de l'école.
-        </p>
-
+        <p class="eyebrow" data-i18n="eyebrow">Lycée Guebre-Mariam</p>
+        <h1 data-i18n="heroTitle">Des réponses claires. Des actualités à jour.</h1>
+        <p class="lede" data-i18n="heroLede">Guebre-ai aide les élèves et les familles à poser des questions et à lire les annonces de l'école.</p>
         <aside class="usage-card" aria-live="polite">
-
           <span class="usage-leaf" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path
-                d="M12 21s7-5.2 7-11.2C19 5.6 16 3 12 3S5 5.6 5 9.8C5 15.8 12 21 12 21z"
-                fill="#fff"
-              />
-              <path
-                d="M12 21V7"
-                stroke="#078930"
-                stroke-width="1.6"
-                stroke-linecap="round"
-              />
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.2 7-11.2C19 5.6 16 3 12 3S5 5.6 5 9.8C5 15.8 12 21 12 21z" fill="#fff"/><path d="M12 21V7" stroke="#078930" stroke-width="1.6" stroke-linecap="round"/></svg>
           </span>
-
-          <p class="usage-kicker" data-i18n="usageKicker">
-            Quota quotidien
-          </p>
-
-          <p class="usage-count">
-            <span id="usage-left">5</span>/<span id="usage-max">5</span>
-          </p>
-
-          <div class="usage-track" aria-hidden="true">
-            <span id="usage-fill" class="usage-fill"></span>
-          </div>
-
+          <p class="usage-count"><span id="usage-left">7</span>/<span id="usage-max">7</span></p>
+          <div class="usage-track" aria-hidden="true"><span id="usage-fill" class="usage-fill"></span></div>
           <p class="usage-en" id="usage-en"></p>
           <p class="usage-fr" id="usage-fr"></p>
-
         </aside>
       </div>
     </section>
-
     <section class="assistant-section" id="assistant">
       <div class="container">
-
         <div class="section-heading">
-          <h2 data-i18n="assistantTitle">
-            Assistant
-          </h2>
-
-          <p data-i18n="assistantIntro">
-            Posez une question sur la vie scolaire ou le calendrier.
-          </p>
+          <h2 data-i18n="assistantTitle">Assistant</h2>
+          <p data-i18n="assistantIntro">Posez une question sur la vie scolaire ou le calendrier.</p>
         </div>
-
         <div class="chips" id="quick-chips"></div>
-
         <div class="chat-card">
-
           <div class="chat-toolbar">
             <span class="status-dot" id="api-status-dot"></span>
-
             <p id="api-status" class="api-status"></p>
-
-            <button
-              type="button"
-              class="btn-ghost"
-              id="clear-chat"
-              data-i18n="clearChat"
-            >
-              Nouvelle discussion
-            </button>
+            <button type="button" class="btn-ghost" id="clear-chat" data-i18n="clearChat">Nouvelle discussion</button>
           </div>
-
-          <div
-            id="chat-log"
-            class="chat-log"
-            aria-live="polite"
-          ></div>
-
+          <div id="chat-log" class="chat-log" aria-live="polite"></div>
           <form id="chat-form" class="chat-form">
-
-            <label
-              class="sr-only"
-              for="chat-input"
-              data-i18n="yourQuestion"
-            >
-              Votre question
-            </label>
-
-            <textarea
-              id="chat-input"
-              rows="2"
-              maxlength="2000"
-              required
-            ></textarea>
-
-            <button
-              type="submit"
-              id="send-button"
-              class="btn-primary"
-              data-i18n="send"
-            >
-              Envoyer
-            </button>
-
+            <label class="sr-only" for="chat-input" data-i18n="yourQuestion">Votre question</label>
+            <textarea id="chat-input" rows="2" maxlength="2000" required></textarea>
+            <button type="submit" id="send-button" class="btn-primary" data-i18n="send">Envoyer</button>
           </form>
         </div>
       </div>
     </section>
-
     <section class="news-section" id="actualites">
       <div class="container">
-
         <div class="section-heading">
-          <h2 data-i18n="newsTitle">
-            Actualités
-          </h2>
-
-          <p data-i18n="newsIntro">
-            Annonces et activités de l'école.
-          </p>
+          <h2 data-i18n="newsTitle">Actualités</h2>
+          <p data-i18n="newsIntro">Annonces et activités de l'école.</p>
         </div>
-
-        <div
-          id="articles-feed"
-          class="articles-grid"
-        ></div>
-
+        <div id="articles-feed" class="articles-grid"></div>
       </div>
     </section>
-
     <section class="about-section" id="about">
       <div class="container about-card">
-
-        <h2 data-i18n="aboutTitle">
-          À propos de Guebre-ai
-        </h2>
-
+        <h2 data-i18n="aboutTitle">À propos de Guebre-ai</h2>
         <p id="about-lead"></p>
-
         <ul id="about-list"></ul>
-
       </div>
     </section>
-
   </main>
-
   <footer class="site-footer">
     <div class="container">
-      <p data-i18n="footer">
-        © 2026 Guebre-ai — Lycée Guebre-Mariam
-      </p>
+      <p data-i18n="footer">© 2026 Guebre-ai — Lycée Guebre-Mariam</p>
     </div>
   </footer>
-
   <div id="article-modal" class="modal" hidden>
-
-    <div
-      class="modal-card"
-      role="dialog"
-      aria-modal="true"
-    >
-
-      <button
-        type="button"
-        class="modal-close"
-        id="modal-close"
-        data-i18n="close"
-      >
-        Fermer
-      </button>
-
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <button type="button" class="modal-close" id="modal-close" data-i18n="close">Fermer</button>
       <p class="tag" id="modal-tag"></p>
-
       <h3 id="modal-title"></h3>
-
       <p class="meta" id="modal-date"></p>
-
       <p id="modal-body"></p>
-
     </div>
   </div>
-
   <script src="config.js"></script>
   <script src="themes.js"></script>
   <script src="app.js"></script>
   <script src="site-copy.js"></script>
-
 </body>
 </html>
