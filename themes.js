@@ -6,9 +6,9 @@
   var mode = localStorage.getItem(MODE_KEY) === "dark" ? "dark" : "light";
 
   var LABELS = {
-    fr: { et: "Éthiopie", dark: "Sombre" },
-    en: { et: "Ethiopia", dark: "Dark" },
-    am: { et: "ኢትዮጵያ", dark: "ጨለማ" }
+    fr: { et: "Éthiopie", dark: "Sombre", settings: "Paramètres", remarks: "Remarques" },
+    en: { et: "Ethiopia", dark: "Dark", settings: "Settings", remarks: "Remarks" },
+    am: { et: "ኢትዮጵያ", dark: "ጨለማ", settings: "ቅንብሮች", remarks: "አስተያየቶች" }
   };
 
   function currentLang() {
@@ -20,8 +20,12 @@
     var pack = LABELS[currentLang()];
     var etText = document.querySelector("#ethiopia-toggle [data-i18n='themeEthiopia']");
     var darkText = document.querySelector("#dark-toggle [data-i18n='themeDark']");
+    var remarks = document.querySelector("[data-i18n='remarks']");
+    var settingsBtn = document.getElementById("settings-toggle");
     if (etText) etText.textContent = pack.et;
     if (darkText) darkText.textContent = pack.dark;
+    if (remarks) remarks.textContent = pack.remarks;
+    if (settingsBtn) settingsBtn.setAttribute("aria-label", pack.settings);
   }
 
   function applyTheme() {
@@ -36,9 +40,20 @@
     applyThemeLabels();
   }
 
+  function closeSettings() {
+    var menu = document.getElementById("settings-menu");
+    var toggle = document.getElementById("settings-toggle");
+    if (menu) menu.hidden = true;
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var etBtn = document.getElementById("ethiopia-toggle");
     var darkBtn = document.getElementById("dark-toggle");
+    var toggle = document.getElementById("settings-toggle");
+    var menu = document.getElementById("settings-menu");
+    var wrap = document.querySelector(".settings-wrap");
+
     if (etBtn) {
       etBtn.addEventListener("click", function () {
         palette = palette === "et" ? "fr" : "et";
@@ -51,6 +66,20 @@
         applyTheme();
       });
     }
+    if (toggle && menu) {
+      toggle.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = menu.hidden;
+        menu.hidden = !open;
+        toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    }
+    document.addEventListener("click", function (e) {
+      if (wrap && !wrap.contains(e.target)) closeSettings();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeSettings();
+    });
     document.querySelectorAll("[data-set-lang]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         setTimeout(applyThemeLabels, 0);
