@@ -16,12 +16,36 @@
     return LABELS[lang] ? lang : "fr";
   }
 
+  function menuEl() { return document.getElementById("settings-menu"); }
+  function toggleEl() { return document.getElementById("settings-toggle"); }
+  function isOpen() {
+    var menu = menuEl();
+    return !!(menu && menu.classList.contains("is-open"));
+  }
+  function setOpen(open) {
+    var menu = menuEl();
+    var toggle = toggleEl();
+    if (!menu || !toggle) return;
+    menu.classList.toggle("is-open", open);
+    if (open) menu.removeAttribute("hidden");
+    else menu.setAttribute("hidden", "");
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  window.guebreToggleSettings = function (event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    setOpen(!isOpen());
+  };
+
   function applyThemeLabels() {
     var pack = LABELS[currentLang()];
     var etText = document.querySelector("#ethiopia-toggle [data-i18n='themeEthiopia']");
     var darkText = document.querySelector("#dark-toggle [data-i18n='themeDark']");
     var remarks = document.querySelector("[data-i18n='remarks']");
-    var settingsBtn = document.getElementById("settings-toggle");
+    var settingsBtn = toggleEl();
     if (etText) etText.textContent = pack.et;
     if (darkText) darkText.textContent = pack.dark;
     if (remarks) remarks.textContent = pack.remarks;
@@ -40,51 +64,43 @@
     applyThemeLabels();
   }
 
-  function closeSettings() {
-    var menu = document.getElementById("settings-menu");
-    var toggle = document.getElementById("settings-toggle");
-    if (menu) menu.hidden = true;
-    if (toggle) toggle.setAttribute("aria-expanded", "false");
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
+  function bind() {
     var etBtn = document.getElementById("ethiopia-toggle");
     var darkBtn = document.getElementById("dark-toggle");
-    var toggle = document.getElementById("settings-toggle");
-    var menu = document.getElementById("settings-menu");
     var wrap = document.querySelector(".settings-wrap");
-
-    if (etBtn) {
-      etBtn.addEventListener("click", function () {
+    if (etBtn && !etBtn.getAttribute("data-bound")) {
+      etBtn.setAttribute("data-bound", "1");
+      etBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
         palette = palette === "et" ? "fr" : "et";
         applyTheme();
       });
     }
-    if (darkBtn) {
-      darkBtn.addEventListener("click", function () {
+    if (darkBtn && !darkBtn.getAttribute("data-bound")) {
+      darkBtn.setAttribute("data-bound", "1");
+      darkBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
         mode = mode === "dark" ? "light" : "dark";
         applyTheme();
       });
     }
-    if (toggle && menu) {
-      toggle.addEventListener("click", function (e) {
-        e.stopPropagation();
-        var open = menu.hidden;
-        menu.hidden = !open;
-        toggle.setAttribute("aria-expanded", open ? "true" : "false");
-      });
-    }
-    document.addEventListener("click", function (e) {
-      if (wrap && !wrap.contains(e.target)) closeSettings();
-    });
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") closeSettings();
-    });
     document.querySelectorAll("[data-set-lang]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         setTimeout(applyThemeLabels, 0);
       });
     });
+    document.addEventListener("click", function (e) {
+      if (wrap && !wrap.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setOpen(false);
+    });
     applyTheme();
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bind);
+  } else {
+    bind();
+  }
 })();
