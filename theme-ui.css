@@ -72,7 +72,7 @@ html[data-mode="dark"] .usage-card {
   height: 18px;
   fill: currentColor;
 }
-.settings-btn .settings-label { display: none; }
+.settings-btn span { display: none; }
 .settings-menu {
   position: absolute;
   right: 0;
