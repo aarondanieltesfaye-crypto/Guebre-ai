@@ -1,8 +1,10 @@
 # Guebre-ai
 
-Guebre-ai est un assistant convivial et une plateforme d'actualités.
+Guebre-ai est un assistant convivial et une plateforme d'actualités du Lycée Guebre-Mariam.
 
 Site en ligne : [https://guebre-ai.netlify.app](https://guebre-ai.netlify.app)
+
+Dernière mise à jour : 4 septembre 2026 — quota 7 questions / jour, menu Paramètres.
 
 Les visiteurs n'entrent **jamais** de clé API. La clé Groq est stockée uniquement comme variable d'environnement Netlify (`GROQ_API_KEY`).
 
