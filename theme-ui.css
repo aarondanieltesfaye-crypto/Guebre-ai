@@ -1,11 +1,10 @@
 .hero-grid { display: block; }
-.site-header { overflow: visible; z-index: 50; }
+.site-header, .header-inner, .header-tools, .settings-wrap { overflow: visible !important; }
 .usage-card {
   display: inline-flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   align-items: center !important;
-  justify-content: flex-start !important;
   gap: 8px;
   width: auto !important;
   max-width: 220px;
@@ -18,20 +17,14 @@
   border: 1px solid #b7e3c6 !important;
   box-shadow: none !important;
 }
-html[data-mode="dark"] .usage-card {
-  background: #163024 !important;
-  border-color: #2f6a45 !important;
-}
-.usage-leaf {
-  width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%;
-  display: grid; place-items: center; background: #078930; box-shadow: none;
-}
+html[data-mode="dark"] .usage-card { background: #163024 !important; border-color: #2f6a45 !important; }
+.usage-leaf { width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%; display: grid; place-items: center; background: #078930; }
 .usage-leaf svg { width: 12px; height: 12px; display: block; }
 .usage-kicker { display: none !important; }
 .usage-count { margin: 0 !important; font-size: 0.92rem !important; line-height: 1 !important; white-space: nowrap; }
 .usage-track { width: 64px !important; flex: 0 0 64px !important; height: 4px !important; margin: 0 !important; }
 .usage-en, .usage-fr { display: none !important; }
-.settings-wrap { position: relative; z-index: 60; }
+.settings-wrap { position: relative; z-index: 80; }
 .settings-btn {
   display: inline-flex; align-items: center; justify-content: center;
   width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%;
@@ -41,10 +34,9 @@ html[data-mode="dark"] .usage-card {
 .settings-gear { width: 18px; height: 18px; fill: currentColor; pointer-events: none; }
 .settings-btn span { display: none; }
 .settings-menu {
-  display: none; position: absolute; right: 0; top: calc(100% + 8px);
-  min-width: 210px; padding: 6px; border-radius: 14px;
+  display: none; position: fixed; min-width: 210px; padding: 6px; border-radius: 14px;
   background: var(--blanc); color: var(--ink); border: 1px solid var(--line);
-  box-shadow: var(--shadow); z-index: 80;
+  box-shadow: var(--shadow); z-index: 9999;
 }
 .settings-menu.is-open { display: block !important; }
 .settings-item {
