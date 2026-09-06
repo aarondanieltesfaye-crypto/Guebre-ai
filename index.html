@@ -53,10 +53,10 @@
               <span class="settings-icon theme-dot dark" aria-hidden="true"></span>
               <span data-i18n="themeDark">Sombre</span>
             </button>
-            <a class="settings-item settings-link" href="mailto:aarondanieltesfaye@gmail.com?subject=Remarques%20Guebre-ai">
+            <button type="button" class="settings-item" id="remarks-open">
               <span class="settings-icon remarks-symbol" aria-hidden="true">✎</span>
               <span data-i18n="remarks">Remarques</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -75,6 +75,8 @@
           <p class="usage-count"><span id="usage-left">7</span>/<span id="usage-max">7</span></p>
           <div class="usage-track" aria-hidden="true"><span id="usage-fill" class="usage-fill"></span></div>
           <p class="usage-label" id="usage-label"></p>
+          <p class="usage-en" id="usage-en" hidden></p>
+          <p class="usage-fr" id="usage-fr" hidden></p>
         </aside>
       </div>
     </section>
@@ -133,6 +135,62 @@
       <p id="modal-body"></p>
     </div>
   </div>
+  <div id="remarks-modal" class="mail-modal" hidden>
+    <div class="mail-card" role="dialog" aria-modal="true" aria-labelledby="mail-heading">
+      <div class="mail-accent" aria-hidden="true"></div>
+      <button type="button" class="mail-close" id="remarks-close" aria-label="Fermer">×</button>
+      <div class="mail-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <strong>Guebre-ai</strong>
+      </div>
+      <div id="mail-compose">
+        <h2 id="mail-heading" data-i18n="mailTitle">Envoyer une remarque</h2>
+        <form id="remarks-form">
+          <input type="hidden" name="form-name" value="remarks">
+          <p>
+            <label for="mail-name" data-i18n="mailName">Nom</label>
+            <input id="mail-name" name="name" type="text" maxlength="120" required autocomplete="name">
+          </p>
+          <p>
+            <label for="mail-email" data-i18n="mailEmail">Email</label>
+            <input id="mail-email" name="email" type="email" maxlength="160" required autocomplete="email">
+          </p>
+          <p>
+            <label for="mail-message" data-i18n="mailMessage">Message</label>
+            <textarea id="mail-message" name="message" rows="5" maxlength="2000" required></textarea>
+          </p>
+          <button type="submit" class="btn-primary" id="mail-send" data-i18n="mailSend">Envoyer</button>
+        </form>
+      </div>
+      <div id="mail-thanks" hidden>
+        <h2 data-i18n="mailThanks">Merci pour votre email</h2>
+        <div class="mail-preview">
+          <p><span data-i18n="mailTitleField">Titre</span> : <strong id="mail-preview-title">Remarques Guebre-ai</strong></p>
+          <p><span data-i18n="mailDateField">Date</span> : <span id="mail-preview-date"></span></p>
+          <p><span data-i18n="mailWrittenBy">Écrit par</span> : <span id="mail-preview-from"></span></p>
+          <p id="mail-preview-hi" class="mail-copy"></p>
+          <p id="mail-preview-body" class="mail-copy"></p>
+        </div>
+        <p id="mail-thanks-dear" class="mail-copy"></p>
+        <p data-i18n="mailThanksBody" class="mail-copy">Merci de nous avoir contactés ! L'équipe Guebre-ai a bien reçu votre message.</p>
+        <p id="mail-thanks-cheers" class="mail-copy"></p>
+        <div class="mail-sign">
+          <span class="mail-avatar" aria-hidden="true">G</span>
+          <div>
+            <strong>Guebre-ai</strong>
+            <p data-i18n="mailRole">Assistant du Lycée Guebre-Mariam</p>
+          </div>
+        </div>
+        <p class="mail-foot">guebre-ai.netlify.app</p>
+      </div>
+    </div>
+  </div>
+  <form name="remarks" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="text" name="bot-field">
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <textarea name="message"></textarea>
+  </form>
   <script src="config.js"></script>
   <script src="themes.js"></script>
   <script src="app.js"></script>

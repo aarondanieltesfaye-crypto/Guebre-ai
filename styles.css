@@ -37,17 +37,75 @@
   --header-fg: #f3ead9;
 }
 
-/* Ethiopia mode: the whole UI leans into the flag — green accent,
-   gold highlights, red margin/alerts. */
+/* Ethiopia mode: flag colors everywhere — green, gold, red. */
 html[data-palette="et"] {
-  --accent: #0b7a3b;
-  --accent-deep: #06592a;
-  --accent-soft: #dcefdf;
+  --paper: #eef6e4;
+  --card: #fffbeb;
+  --ink: #12351c;
+  --ink-soft: #3f5e42;
+  --rule: #c9dc9a;
   --margin: #da121a;
-  --highlight-a: rgba(252, 221, 9, 0.55);
-  --highlight-b: rgba(218, 18, 26, 0.24);
-  --highlight-c: rgba(11, 122, 59, 0.3);
+  --accent: #078930;
+  --accent-deep: #056227;
+  --accent-soft: #d9f3df;
+  --accent-contrast: #fffdf3;
+  --highlight-a: rgba(252, 221, 9, 0.72);
+  --highlight-b: rgba(218, 18, 26, 0.28);
+  --highlight-c: rgba(7, 137, 48, 0.34);
+  --line: #e0c84a;
+  --header-bg: #078930;
+  --header-fg: #fffdf3;
 }
+
+html[data-palette="et"] .site-header {
+  background: #078930;
+  color: #fffdf3;
+  box-shadow: none;
+}
+html[data-palette="et"] .site-header::after {
+  content: "";
+  display: block;
+  height: 7px;
+  background: linear-gradient(90deg, #078930 0 33.33%, #fcdd09 33.33% 66.66%, #da121a 66.66% 100%);
+}
+html[data-palette="et"] .eyebrow { color: #da121a; }
+html[data-palette="et"] .btn-primary { background: #078930; color: #fff; }
+html[data-palette="et"] .btn-primary:hover { background: #056227; }
+html[data-palette="et"] .message.user { background: #078930; color: #fff; }
+html[data-palette="et"] .status-dot.ready { background: #078930; }
+html[data-palette="et"] .usage-leaf { background: #078930; }
+html[data-palette="et"] .usage-fill { background: #fcdd09; }
+html[data-palette="et"] .usage-card { border-bottom-color: #078930; }
+html[data-palette="et"] .chip:nth-child(3n+1) { box-shadow: inset 0 -9px 0 -3px rgba(7, 137, 48, 0.35), var(--shadow-sm); }
+html[data-palette="et"] .chip:nth-child(3n+2) { box-shadow: inset 0 -9px 0 -3px rgba(252, 221, 9, 0.7), var(--shadow-sm); }
+html[data-palette="et"] .chip:nth-child(3n+3) { box-shadow: inset 0 -9px 0 -3px rgba(218, 18, 26, 0.28), var(--shadow-sm); }
+html[data-palette="et"] .article-card:nth-of-type(3n+1) .tag { box-shadow: inset 0 -7px 0 -1px rgba(7, 137, 48, 0.4); }
+html[data-palette="et"] .article-card:nth-of-type(3n+2) .tag { box-shadow: inset 0 -7px 0 -1px rgba(252, 221, 9, 0.75); }
+html[data-palette="et"] .article-card:nth-of-type(3n+3) .tag { box-shadow: inset 0 -7px 0 -1px rgba(218, 18, 26, 0.3); }
+
+/* Dark + Ethiopia: blackboard with green, gold and red chalk. */
+html[data-palette="et"][data-mode="dark"] {
+  --paper: #0c1a10;
+  --card: #16301c;
+  --ink: #f6f1d6;
+  --ink-soft: #c7d7b5;
+  --rule: rgba(252, 221, 9, 0.2);
+  --margin: #ff5c57;
+  --accent: #3dbe6a;
+  --accent-deep: #fcdd09;
+  --accent-soft: rgba(7, 137, 48, 0.28);
+  --accent-contrast: #07140b;
+  --highlight-a: rgba(252, 221, 9, 0.28);
+  --highlight-b: rgba(255, 92, 87, 0.28);
+  --highlight-c: rgba(61, 190, 106, 0.28);
+  --line: rgba(252, 221, 9, 0.28);
+  --header-bg: #056227;
+  --header-fg: #fff8d0;
+}
+html[data-palette="et"][data-mode="dark"] .site-header { background: #056227; color: #fff8d0; }
+html[data-palette="et"][data-mode="dark"] .message.user { background: #3dbe6a; color: #07140b; }
+html[data-palette="et"][data-mode="dark"] .btn-primary { background: #3dbe6a; color: #07140b; }
+
 
 /* Dark mode: a blackboard. White and black are the primary colors;
    any other hue only shows up as a sliver of "colored chalk". */

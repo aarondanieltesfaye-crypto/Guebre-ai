@@ -24,7 +24,12 @@
       placeholder: "Tapez votre question ici...", ready: "Assistant prêt.",
       thinking: "Réflexion en cours...", limitReached: "Quota atteint pour aujourd'hui. Revenez demain.",
       youLabel: "Vous", chips: ["Quand est Meskel ?", "Quand est la rentrée ?", "Qui contacter à la vie scolaire ?"],
-      usageLabel: function (n) { return n === 0 ? "Quota atteint pour aujourd'hui" : n === 1 ? "1 question restante aujourd'hui" : n + " questions restantes aujourd'hui"; }
+      usageLabel: function (n) { return n === 0 ? "Quota atteint pour aujourd'hui" : n === 1 ? "1 question restante aujourd'hui" : n + " questions restantes aujourd'hui"; },
+      mailTitle: "Envoyer une remarque", mailName: "Nom", mailEmail: "Email", mailMessage: "Message", mailSend: "Envoyer",
+      mailThanks: "Merci pour votre email", mailTitleField: "Titre", mailDateField: "Date", mailWrittenBy: "Écrit par",
+      mailHi: "Bonjour,", mailThanksDear: "Bonjour",
+      mailThanksBody: "Merci de nous avoir contactés ! L'équipe Guebre-ai a bien reçu votre message. Nous vous répondrons dès que possible.",
+      mailCheers: "Bien à vous,", mailRole: "Assistant du Lycée Guebre-Mariam", mailSubject: "Remarques Guebre-ai"
     },
     en: {
       skip: "Skip to content", navAssistant: "Assistant", navNews: "News", navAbout: "About",
@@ -43,7 +48,12 @@
       placeholder: "Type your question here...", ready: "Assistant ready.",
       thinking: "Thinking...", limitReached: "Daily limit reached. Please come back tomorrow.",
       youLabel: "You", chips: ["When is Meskel?", "When is the first day of school?", "Who should I ask at vie scolaire?"],
-      usageLabel: function (n) { return n === 0 ? "Daily quota reached" : n === 1 ? "1 question left today" : n + " questions left today"; }
+      usageLabel: function (n) { return n === 0 ? "Daily quota reached" : n === 1 ? "1 question left today" : n + " questions left today"; },
+      mailTitle: "Send a remark", mailName: "Name", mailEmail: "Email", mailMessage: "Message", mailSend: "Send",
+      mailThanks: "Thank you for your email", mailTitleField: "Title", mailDateField: "Date", mailWrittenBy: "Written by",
+      mailHi: "Hi,", mailThanksDear: "Dear",
+      mailThanksBody: "Thank you for contacting us! The Guebre-ai team received your message. We will get back to you as soon as we can.",
+      mailCheers: "Cheers,", mailRole: "Lycée Guebre-Mariam assistant", mailSubject: "Guebre-ai remarks"
     },
     am: {
       skip: "ወደ ይዝት ይሂዱ", navAssistant: "ረዳት", navNews: "ዜና", navAbout: "ስለ",
@@ -62,7 +72,12 @@
       placeholder: "ጥያቄዎን እዚህ ይጻፉ...", ready: "ረዳቱ ዝግጁ ነው።",
       thinking: "እያሰበ ነው...", limitReached: "የዛሬ ገደብ ደርሷል። ነገ ይመለሱ።",
       youLabel: "እርሶዎ", chips: ["መስቀል መቼ ነው?", "ትምህርት መቼ ይጀምራል?", "የትምህርት ህይወትን ማን እጠይቃለሁ?"],
-      usageLabel: function (n) { return n === 0 ? "የዛሬ ገደብ ደርሷል" : n + " ጥያቄዎች ለዛሬ ቀርተዋል"; }
+      usageLabel: function (n) { return n === 0 ? "የዛሬ ገደብ ደርሷል" : n + " ጥያቄዎች ለዛሬ ቀርተዋል"; },
+      mailTitle: "አስተያየት ይላኩ", mailName: "ስም", mailEmail: "ኢሜይል", mailMessage: "መልእክት", mailSend: "ላክ",
+      mailThanks: "ስለ ኢሜይልዎ እናመሰግናለን", mailTitleField: "ርዕስ", mailDateField: "ቀን", mailWrittenBy: "የጻፈው",
+      mailHi: "ሰላም፣", mailThanksDear: "ውድ",
+      mailThanksBody: "ስላገኙን እናመሰግናለን! የGuebre-ai ቡድን መልእክትዎን ተቀብሏል። በቅርቡ እንመልሳለን።",
+      mailCheers: "ከሰላምታ ጋር፣", mailRole: "የሊሴ ግብረ ማርያም ረዳት", mailSubject: "የGuebre-ai አስተያየቶች"
     }
   };
 
@@ -120,14 +135,24 @@
   function renderUsage() {
     var left = remaining();
     var card = document.querySelector(".usage-card");
-    document.getElementById("usage-left").textContent = String(left);
-    document.getElementById("usage-max").textContent = String(DAILY_LIMIT);
-    document.getElementById("usage-fill").style.width = (left / DAILY_LIMIT) * 100 + "%";
-    document.getElementById("usage-label").textContent = t().usageLabel(left);
-    card.classList.toggle("is-low", left > 0 && left <= 2);
-    card.classList.toggle("is-empty", left === 0);
-    sendButton.disabled = left === 0;
-    if (left === 0) chatInput.placeholder = t().limitReached;
+    var leftEl = document.getElementById("usage-left");
+    var maxEl = document.getElementById("usage-max");
+    var fillEl = document.getElementById("usage-fill");
+    var labelEl = document.getElementById("usage-label");
+    var enEl = document.getElementById("usage-en");
+    var frEl = document.getElementById("usage-fr");
+    if (leftEl) leftEl.textContent = String(left);
+    if (maxEl) maxEl.textContent = String(DAILY_LIMIT);
+    if (fillEl) fillEl.style.width = (left / DAILY_LIMIT) * 100 + "%";
+    if (labelEl) labelEl.textContent = t().usageLabel(left);
+    if (enEl) enEl.textContent = left === 1 ? "1 question left today" : left + " questions left today";
+    if (frEl) frEl.textContent = left === 1 ? "1 question restante aujourd'hui" : left + " questions restantes aujourd'hui";
+    if (card) {
+      card.classList.toggle("is-low", left > 0 && left <= 2);
+      card.classList.toggle("is-empty", left === 0);
+    }
+    if (sendButton) sendButton.disabled = left === 0;
+    if (left === 0 && chatInput) chatInput.placeholder = t().limitReached;
   }
 
   function applyLang() {
@@ -202,7 +227,16 @@
     if (config.CHAT_API_URL) return config.CHAT_API_URL;
     var host = window.location.hostname;
     if (host.indexOf("netlify.app") !== -1 || host.indexOf("netlify.com") !== -1) return "/.netlify/functions/chat";
-    return "/api/chat";
+    if (host === "localhost" || host === "127.0.0.1") return "/api/chat";
+    return "https://guebre-ai.netlify.app/.netlify/functions/chat";
+  }
+  function chatUrls() {
+    var primary = chatUrl();
+    var list = [primary];
+    ["/api/chat", "/.netlify/functions/chat", "https://guebre-ai.netlify.app/.netlify/functions/chat"].forEach(function (url) {
+      if (list.indexOf(url) === -1) list.push(url);
+    });
+    return list;
   }
   function setStatus(kind, message) {
     statusText.textContent = message;
@@ -229,18 +263,28 @@
   }
   async function askBackend(prompt) {
     conversation.push({ role: "user", content: prompt });
-    var response = await fetch(chatUrl(), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: conversation, language: lang })
-    });
-    var data;
-    try { data = await response.json(); }
-    catch (e) { conversation.pop(); throw new Error("Server error"); }
-    if (!response.ok) { conversation.pop(); throw new Error((data && data.error) || "Request failed"); }
-    if (!data || !data.reply) { conversation.pop(); throw new Error("Empty reply"); }
-    conversation.push({ role: "assistant", content: data.reply });
-    return data.reply;
+    var urls = chatUrls();
+    var lastError = new Error("Server error");
+    for (var i = 0; i < urls.length; i += 1) {
+      try {
+        var response = await fetch(urls[i], {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: conversation, language: lang })
+        });
+        var data;
+        try { data = await response.json(); }
+        catch (e) { lastError = new Error("Server error"); continue; }
+        if (!response.ok) { lastError = new Error((data && data.error) || "Request failed"); continue; }
+        if (!data || !data.reply) { lastError = new Error("Empty reply"); continue; }
+        conversation.push({ role: "assistant", content: data.reply });
+        return data.reply;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+    conversation.pop();
+    throw lastError;
   }
   async function onSubmit(event) {
     event.preventDefault();
@@ -281,11 +325,92 @@
   document.getElementById("article-modal").addEventListener("click", function (e) {
     if (e.target.id === "article-modal") closeModal();
   });
-  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeModal(); closeRemarks(); } });
   chatForm.addEventListener("submit", onSubmit);
   chatInput.addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); chatForm.requestSubmit(); }
   });
+
+  var remarksModal = document.getElementById("remarks-modal");
+  var remarksForm = document.getElementById("remarks-form");
+  var remarksOpen = document.getElementById("remarks-open");
+  var remarksClose = document.getElementById("remarks-close");
+  var mailCompose = document.getElementById("mail-compose");
+  var mailThanks = document.getElementById("mail-thanks");
+  var remarksEmail = (config.REMARKS_EMAIL || "aarondanieltesfaye@gmail.com");
+
+  function openRemarks(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    var menu = document.getElementById("settings-menu");
+    var gear = document.getElementById("settings-toggle");
+    if (menu) menu.classList.remove("is-open");
+    if (gear) gear.setAttribute("aria-expanded", "false");
+    if (!remarksModal) return;
+    if (mailCompose) mailCompose.hidden = false;
+    if (mailThanks) mailThanks.hidden = true;
+    if (remarksForm) remarksForm.reset();
+    remarksModal.hidden = false;
+  }
+  function closeRemarks() {
+    if (remarksModal) remarksModal.hidden = true;
+  }
+  function encodeForm(data) {
+    return Object.keys(data)
+      .map(function (key) { return encodeURIComponent(key) + "=" + encodeURIComponent(data[key]); })
+      .join("&");
+  }
+  async function sendRemarks(name, email, message) {
+    var payload = { "form-name": "remarks", name: name, email: email, message: message };
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encodeForm(payload)
+      });
+    } catch (e) {}
+    return true;
+  }
+  function two(n) { return (n < 10 ? "0" : "") + n; }
+  function showRemarksThanks(name, email, message) {
+    var dict = t();
+    var now = new Date();
+    var stamp = now.getFullYear() + "." + two(now.getMonth() + 1) + "." + two(now.getDate()) +
+      "  " + two(now.getHours()) + ":" + two(now.getMinutes());
+    if (document.getElementById("mail-preview-title")) document.getElementById("mail-preview-title").textContent = dict.mailSubject;
+    if (document.getElementById("mail-preview-date")) document.getElementById("mail-preview-date").textContent = stamp;
+    if (document.getElementById("mail-preview-from")) document.getElementById("mail-preview-from").textContent = name + " · " + email;
+    if (document.getElementById("mail-preview-hi")) document.getElementById("mail-preview-hi").textContent = dict.mailHi;
+    if (document.getElementById("mail-preview-body")) document.getElementById("mail-preview-body").textContent = message;
+    if (document.getElementById("mail-thanks-dear")) document.getElementById("mail-thanks-dear").textContent = dict.mailThanksDear + " " + name + ",";
+    if (document.getElementById("mail-thanks-cheers")) document.getElementById("mail-thanks-cheers").textContent = dict.mailCheers;
+    if (mailCompose) mailCompose.hidden = true;
+    if (mailThanks) mailThanks.hidden = false;
+  }
+  if (remarksOpen) remarksOpen.addEventListener("click", openRemarks);
+  if (remarksClose) remarksClose.addEventListener("click", closeRemarks);
+  if (remarksModal) remarksModal.addEventListener("click", function (e) {
+    if (e.target.id === "remarks-modal") closeRemarks();
+  });
+  if (remarksForm) remarksForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var name = (document.getElementById("mail-name") || {}).value || "";
+    var email = (document.getElementById("mail-email") || {}).value || "";
+    var message = (document.getElementById("mail-message") || {}).value || "";
+    name = name.trim();
+    email = email.trim();
+    message = message.trim();
+    if (!name || !email || !message) return;
+    var sendBtn = document.getElementById("mail-send");
+    if (sendBtn) sendBtn.disabled = true;
+    sendRemarks(name, email, message).finally(function () {
+      if (sendBtn) sendBtn.disabled = false;
+      showRemarksThanks(name, email, message);
+    });
+  });
+
   applyLang();
   resetChat();
 })();
