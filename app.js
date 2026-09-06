@@ -23,7 +23,8 @@
       hello: "Bonjour. Je suis Guebre-ai. Posez une question en français, en anglais ou en amharique.",
       placeholder: "Tapez votre question ici...", ready: "Assistant prêt.",
       thinking: "Réflexion en cours...", limitReached: "Quota atteint pour aujourd'hui. Revenez demain.",
-      youLabel: "Vous", chips: ["Quand est Meskel ?", "Quand est la rentrée ?", "Qui contacter à la vie scolaire ?"]
+      youLabel: "Vous", chips: ["Quand est Meskel ?", "Quand est la rentrée ?", "Qui contacter à la vie scolaire ?"],
+      usageLabel: function (n) { return n === 0 ? "Quota atteint pour aujourd'hui" : n === 1 ? "1 question restante aujourd'hui" : n + " questions restantes aujourd'hui"; }
     },
     en: {
       skip: "Skip to content", navAssistant: "Assistant", navNews: "News", navAbout: "About",
@@ -41,7 +42,8 @@
       hello: "Hello. I am Guebre-ai. Ask in French, English, or Amharic.",
       placeholder: "Type your question here...", ready: "Assistant ready.",
       thinking: "Thinking...", limitReached: "Daily limit reached. Please come back tomorrow.",
-      youLabel: "You", chips: ["When is Meskel?", "When is the first day of school?", "Who should I ask at vie scolaire?"]
+      youLabel: "You", chips: ["When is Meskel?", "When is the first day of school?", "Who should I ask at vie scolaire?"],
+      usageLabel: function (n) { return n === 0 ? "Daily quota reached" : n === 1 ? "1 question left today" : n + " questions left today"; }
     },
     am: {
       skip: "ወደ ይዝት ይሂዱ", navAssistant: "ረዳት", navNews: "ዜና", navAbout: "ስለ",
@@ -59,22 +61,32 @@
       hello: "ሰላም። እኔ Guebre-ai ነኝ። በፈረንሰይኛ፣ በእንግሊዝኛ ወይም በአማርኛ ይጠይቁ።",
       placeholder: "ጥያቄዎን እዚህ ይጻፉ...", ready: "ረዳቱ ዝግጁ ነው።",
       thinking: "እያሰበ ነው...", limitReached: "የዛሬ ገደብ ደርሷል። ነገ ይመለሱ።",
-      youLabel: "እርሶዎ", chips: ["መስቀል መቼ ነው?", "ትምህርት መቼ ይጀምራል?", "የትምህርት ህይወትን ማን እጠይቃለሁ?"]
+      youLabel: "እርሶዎ", chips: ["መስቀል መቼ ነው?", "ትምህርት መቼ ይጀምራል?", "የትምህርት ህይወትን ማን እጠይቃለሁ?"],
+      usageLabel: function (n) { return n === 0 ? "የዛሬ ገደብ ደርሷል" : n + " ጥያቄዎች ለዛሬ ቀርተዋል"; }
     }
+  };
+
+  var ILLUSTRATIONS = {
+    backToSchool: '<svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M60 100 C90 78 150 78 200 92 C250 78 310 78 340 100" /><path d="M200 92 L200 40" stroke-dasharray="4 6" stroke-width="1.6"/><path d="M60 100 L60 46 C90 30 150 30 200 40" /><path d="M340 100 L340 46 C310 30 250 30 200 40" /><line x1="232" y1="54" x2="302" y2="28" stroke="#c9863a" stroke-width="4"/><circle cx="300" cy="27" r="4.5" fill="#c9863a" stroke="none"/></svg>',
+    enkutatash: '<svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M150 128 C150 92 160 72 170 55" /><path d="M200 128 C205 86 210 60 210 38" /><path d="M250 128 C245 92 240 66 235 50" /></g><g fill="#f4c94a" stroke="#caa22f" stroke-width="1.4"><circle cx="170" cy="46" r="15"/><circle cx="210" cy="29" r="17"/><circle cx="235" cy="41" r="14"/></g><g fill="#fff7df"><circle cx="170" cy="46" r="5.5"/><circle cx="210" cy="29" r="6.5"/><circle cx="235" cy="41" r="5.5"/></g></svg>',
+    meskel: '<svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M138 122 L200 38 L262 122 Z" /><path d="M158 122 L200 60 L242 122 Z" /></g><g stroke="#c24141" stroke-width="3.2" stroke-linecap="round"><line x1="200" y1="28" x2="200" y2="4" /><line x1="189" y1="13" x2="211" y2="13" /></g><path d="M180 120 C185 100 195 95 200 76 C205 95 215 100 220 120 Z" fill="#e8975a" opacity="0.88"/></svg>'
   };
 
   var ARTICLES = [
     { tag: { fr: "Rentrée", en: "Back to school", am: "መጀመሪያ" },
+      illustration: ILLUSTRATIONS.backToSchool,
       title: { fr: "Rentrée des élèves le 2 septembre 2026", en: "Students return on 2 September 2026", am: "ተማሪዎች መስከረም 2 ሴፕቴምበር 2026 ይመለሳሉ" },
       date: { fr: "Calendrier LGM 2026-2027", en: "LGM calendar 2026-2027", am: "የLGM የዘመን ሰሌዳ 2026-2027" },
       summary: { fr: "La prérentrée des enseignants est le mardi 1er septembre. Les élèves reprennent le mercredi 2 septembre 2026.", en: "Teachers return on Tuesday 1 September. Students return on Wednesday 2 September 2026.", am: "መምህራን ማክሰኞ ሴፕቴምበር 1 ይመለሳሉ። ተማሪዎች ረቡዕ ሴፕቴምበር 2 ይመለሳሉ።" },
       more: { fr: "Source : calendrier scolaire officiel du Lycée Guebre-Mariam 2026-2027. Août 2026 reste en vacances.", en: "Source: official Lycée Guebre-Mariam calendar 2026-2027. August 2026 is still holiday.", am: "ምንጭ፦ የሊሴ ግብረ ማርያም የዘመን ሰሌዳ 2026-2027።" } },
     { tag: { fr: "Jour férié", en: "Holiday", am: "የእረፍት ቀን" },
+      illustration: ILLUSTRATIONS.enkutatash,
       title: { fr: "Nouvel An éthiopien (Addis Amet)", en: "Ethiopian New Year (Addis Amet)", am: "አዲስ አመት (እንቁጣጣሽ)" },
       date: { fr: "11 septembre 2026", en: "11 September 2026", am: "መስከረም 11 ሴፕቴምበር 2026" },
       summary: { fr: "Le lycée est fermé le 11 septembre 2026 pour le Nouvel An éthiopien.", en: "The school is closed on 11 September 2026 for Ethiopian New Year.", am: "በመስከረም 11 ሴፕቴምበር 2026 ሊሴው ለአዲሱ አመት ይዘጋል።" },
       more: { fr: "Jour férié inscrit sur le calendrier scolaire LGM 2026-2027. Ce n'est pas un jour de cours.", en: "Listed as a public holiday on the LGM 2026-2027 school calendar. Not a class day.", am: "በየLGM 2026-2027 የዘመን ሰሌዳ ላይ የእረፍት ቀን ነው።" } },
     { tag: { fr: "Activité", en: "Activity", am: "ተግባር" },
+      illustration: ILLUSTRATIONS.meskel,
       title: { fr: "Fête de la Croix (Meskel)", en: "Feast of the Cross (Meskel)", am: "የመስቀል በዓል (መስቀል)" },
       date: { fr: "27 septembre 2026", en: "27 September 2026", am: "መስከረም 27 ሴፕቴምበር 2026" },
       summary: { fr: "Fermeture le 27 septembre 2026 pour Meskel.", en: "School closed on 27 September 2026 for Meskel.", am: "በመስቀል በዓል ሊሴው መስከረም 27 ሴፕቴምበር 2026 ይዘጋል።" },
@@ -111,8 +123,7 @@
     document.getElementById("usage-left").textContent = String(left);
     document.getElementById("usage-max").textContent = String(DAILY_LIMIT);
     document.getElementById("usage-fill").style.width = (left / DAILY_LIMIT) * 100 + "%";
-    document.getElementById("usage-en").textContent = left === 1 ? "1 question left today" : left + " questions left today";
-    document.getElementById("usage-fr").textContent = left === 1 ? "1 question restante aujourd'hui" : left + " questions restantes aujourd'hui";
+    document.getElementById("usage-label").textContent = t().usageLabel(left);
     card.classList.toggle("is-low", left > 0 && left <= 2);
     card.classList.toggle("is-empty", left === 0);
     sendButton.disabled = left === 0;
@@ -154,17 +165,26 @@
     ARTICLES.forEach(function (item) {
       var card = document.createElement("article");
       card.className = "article-card";
+      if (item.illustration) {
+        var media = document.createElement("div");
+        media.className = "article-media";
+        media.innerHTML = item.illustration;
+        card.appendChild(media);
+      }
+      var body = document.createElement("div");
+      body.className = "article-body";
       var more = document.createElement("button");
       more.type = "button";
       more.className = "more-btn";
       more.textContent = t().more;
       more.addEventListener("click", function () { openModal(item); });
-      card.innerHTML = '<span class="tag"></span><h3></h3><p class="meta"></p><p class="summary"></p>';
-      card.querySelector(".tag").textContent = pick(item.tag);
-      card.querySelector("h3").textContent = pick(item.title);
-      card.querySelector(".meta").textContent = pick(item.date);
-      card.querySelector(".summary").textContent = pick(item.summary);
-      card.appendChild(more);
+      body.innerHTML = '<span class="tag"></span><h3></h3><p class="meta"></p><p class="summary"></p>';
+      body.querySelector(".tag").textContent = pick(item.tag);
+      body.querySelector("h3").textContent = pick(item.title);
+      body.querySelector(".meta").textContent = pick(item.date);
+      body.querySelector(".summary").textContent = pick(item.summary);
+      body.appendChild(more);
+      card.appendChild(body);
       articlesFeed.appendChild(card);
     });
   }
