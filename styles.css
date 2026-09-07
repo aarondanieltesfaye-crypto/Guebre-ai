@@ -73,9 +73,6 @@ html[data-palette="et"] .btn-primary { background: #078930; color: #fff; }
 html[data-palette="et"] .btn-primary:hover { background: #056227; }
 html[data-palette="et"] .message.user { background: #078930; color: #fff; }
 html[data-palette="et"] .status-dot.ready { background: #078930; }
-html[data-palette="et"] .usage-leaf { background: #078930; }
-html[data-palette="et"] .usage-fill { background: #fcdd09; }
-html[data-palette="et"] .usage-card { border-bottom-color: #078930; }
 html[data-palette="et"] .chip:nth-child(3n+1) { box-shadow: inset 0 -9px 0 -3px rgba(7, 137, 48, 0.35), var(--shadow-sm); }
 html[data-palette="et"] .chip:nth-child(3n+2) { box-shadow: inset 0 -9px 0 -3px rgba(252, 221, 9, 0.7), var(--shadow-sm); }
 html[data-palette="et"] .chip:nth-child(3n+3) { box-shadow: inset 0 -9px 0 -3px rgba(218, 18, 26, 0.28), var(--shadow-sm); }
@@ -163,9 +160,9 @@ a { color: var(--accent); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 56px; gap: 14px; flex-wrap: wrap; padding: 6px 0; }
 .header-tools { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .brand { display: flex; align-items: center; gap: 9px; color: var(--header-fg); text-decoration: none; font-weight: 700; }
-.brand-mark { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #002395 0 33%, #fff 33% 66%, #ed2939 66% 100%); box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.28); flex: none; }
-html[data-palette="et"] .brand-mark { background: linear-gradient(180deg, #078930 0 33%, #fcdd09 33% 66%, #da121a 66% 100%); }
+.brand-logo { width: 34px; height: 34px; object-fit: contain; flex: none; display: block; filter: drop-shadow(0 0 0 1px rgba(255,255,255,0.25)); }
 .brand-name { font-family: var(--font-display); font-size: 1.16rem; letter-spacing: 0.01em; }
+.brand-mark { display: none; }
 .main-nav { display: flex; gap: 2px; }
 .main-nav a { color: var(--header-fg); text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 8px 11px; opacity: 0.82; transition: opacity 0.15s ease, box-shadow 0.15s ease; }
 .main-nav a:hover, .main-nav a:focus-visible { opacity: 1; box-shadow: inset 0 -3px 0 var(--accent); }
@@ -184,33 +181,6 @@ h1 { font-size: clamp(1.95rem, 4.4vw, 3.1rem); font-weight: 600; max-width: 17ch
 .hero .eyebrow { animation: ink-rise 0.55s ease both; }
 .hero h1 { animation: ink-rise 0.55s 0.08s ease both; }
 .hero .lede { animation: ink-rise 0.55s 0.16s ease both; }
-.hero .usage-card { animation: ink-rise 0.55s 0.24s ease both; }
-
-/* Quota indicator: reads as a line of text underlined in ink,
-   not a badge floating in space — and it says what it means. */
-.usage-card {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin: 14px 0 0;
-  padding: 4px 2px 8px;
-  border: 0;
-  border-bottom: 2px solid var(--accent);
-  background: transparent;
-  border-radius: 0;
-}
-.usage-leaf { width: 19px; height: 19px; flex: 0 0 19px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); }
-.usage-leaf svg { width: 11px; height: 11px; display: block; }
-.usage-count { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 0.98rem; line-height: 1; color: var(--ink); white-space: nowrap; }
-.usage-track { width: 46px; height: 4px; background: var(--line); border-radius: 99px; overflow: hidden; }
-.usage-fill { display: block; height: 100%; background: var(--accent); border-radius: 99px; transition: width 0.35s ease; }
-.usage-label { margin: 0; font-size: 0.85rem; color: var(--ink-soft); font-weight: 600; white-space: nowrap; }
-.usage-card.is-low { border-bottom-color: #b8862f; }
-.usage-card.is-low .usage-leaf { background: #b8862f; }
-.usage-card.is-low .usage-count, .usage-card.is-low .usage-label { color: #b8862f; }
-.usage-card.is-empty { border-bottom-color: var(--margin); }
-.usage-card.is-empty .usage-leaf { background: var(--margin); }
-.usage-card.is-empty .usage-count, .usage-card.is-empty .usage-label { color: var(--margin); }
 
 /* ---------- Sections ---------- */
 .assistant-section, .news-section, .about-section { padding: 20px 0 26px; }
@@ -274,12 +244,45 @@ h1 { font-size: clamp(1.95rem, 4.4vw, 3.1rem); font-weight: 600; max-width: 17ch
 .message .label { display: block; font-family: var(--font-hand); font-size: 0.98rem; font-weight: 700; margin-bottom: 1px; opacity: 0.9; }
 
 .chat-form { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 10px; align-items: end; }
+.chat-form .suggest-wrap { min-width: 0; }
 .chat-form textarea { width: 100%; border: 0; border-bottom: 2px solid var(--line); border-radius: 0; padding: 6px 2px; font: inherit; min-height: 44px; resize: vertical; background: transparent; color: var(--ink); }
 .chat-form textarea:focus { outline: none; border-bottom-color: var(--accent); }
 .btn-primary { background: var(--accent); color: var(--accent-contrast); border: 0; border-radius: 3px; padding: 0 18px; font: inherit; font-weight: 700; cursor: pointer; min-height: 44px; transition: background 0.15s ease, transform 0.1s ease; }
 .btn-primary:hover { background: var(--accent-deep); }
 .btn-primary:active { transform: translateY(1px); }
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.mail-link { color: var(--accent); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.message.user .mail-link { color: inherit; }
+
+.suggest-wrap { position: relative; }
+.suggest-box {
+  position: absolute; left: 0; right: 0; top: calc(100% - 2px); z-index: 8;
+  background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+  box-shadow: var(--shadow-lg); max-height: 240px; overflow: auto; padding: 6px;
+}
+.suggest-box[hidden] { display: none; }
+.contact-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 2px;
+  width: 100%; margin: 0 0 6px; padding: 8px 10px; border: 1px solid var(--line);
+  border-radius: 8px; background: var(--card); color: var(--ink); font: inherit;
+  text-align: left; cursor: pointer;
+}
+.contact-card:last-child { margin-bottom: 0; }
+.contact-card:hover { background: var(--accent-soft); border-color: var(--accent); }
+.contact-card strong { font-size: 0.92rem; }
+.contact-role { font-size: 0.78rem; color: var(--ink-soft); }
+.contact-email { font-size: 0.82rem; font-weight: 700; color: var(--accent); word-break: break-all; }
+.contact-email.dim { font-weight: 500; color: var(--ink-soft); }
+.contact-phone { font-size: 0.78rem; color: var(--ink-soft); }
+.contact-row { max-width: min(92%, 640px); }
+.contact-row .contact-card { margin-top: 8px; }
+
+.field-hint { display: block; font-weight: 500; font-size: 0.75rem; color: var(--ink-soft); margin-top: 2px; }
+.picked-contact {
+  margin: 6px 0 0; padding: 8px 10px; border-radius: 8px;
+  background: var(--accent-soft); color: var(--accent-deep); font-size: 0.82rem; font-weight: 600;
+}
 
 /* ---------- News: flat index cards, one hole-punch each, optional illustration ---------- */
 .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }

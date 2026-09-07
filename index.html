@@ -6,7 +6,8 @@
   <meta name="description" content="Guebre-ai — assistant scolaire du Lycée Guebre-Mariam.">
   <meta name="theme-color" content="#efe7d3">
   <title>Guebre-ai</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2322293a'/%3E%3Cpath d='M9 23 L21 9 L25 13 L13 27 Z' fill='%232456a6'/%3E%3Cpath d='M9 23 L13 27 L7 25 Z' fill='%23efe7d3'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Yellowtail&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Noto+Sans+Ethiopic:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -26,7 +27,7 @@
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="#top">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <img class="brand-logo" src="logo-mark.png" width="36" height="36" alt="">
         <span class="brand-name">Guebre-ai</span>
       </a>
       <nav class="main-nav">
@@ -68,16 +69,6 @@
         <p class="eyebrow" data-i18n="eyebrow">Lycée Guebre-Mariam</p>
         <h1 data-i18n="heroTitle">Des réponses claires. Des actualités à jour.</h1>
         <p class="lede" data-i18n="heroLede">Guebre-ai aide les élèves et les familles à poser des questions et à lire les annonces de l'école.</p>
-        <aside class="usage-card" aria-live="polite">
-          <span class="usage-leaf" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.2 7-11.2C19 5.6 16 3 12 3S5 5.6 5 9.8C5 15.8 12 21 12 21z" fill="#fff"/><path d="M12 21V7" stroke="#fff" stroke-opacity="0.55" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </span>
-          <p class="usage-count"><span id="usage-left">7</span>/<span id="usage-max">7</span></p>
-          <div class="usage-track" aria-hidden="true"><span id="usage-fill" class="usage-fill"></span></div>
-          <p class="usage-label" id="usage-label"></p>
-          <p class="usage-en" id="usage-en" hidden></p>
-          <p class="usage-fr" id="usage-fr" hidden></p>
-        </aside>
       </div>
     </section>
     <section class="assistant-section" id="assistant">
@@ -96,7 +87,10 @@
           <div id="chat-log" class="chat-log" aria-live="polite"></div>
           <form id="chat-form" class="chat-form">
             <label class="sr-only" for="chat-input" data-i18n="yourQuestion">Votre question</label>
-            <textarea id="chat-input" rows="2" maxlength="2000" required></textarea>
+            <div class="suggest-wrap">
+              <textarea id="chat-input" rows="2" maxlength="2000" required></textarea>
+              <div id="chat-suggest" class="suggest-box" hidden></div>
+            </div>
             <button type="submit" id="send-button" class="btn-primary" data-i18n="send">Envoyer</button>
           </form>
         </div>
@@ -140,24 +134,43 @@
       <div class="mail-accent" aria-hidden="true"></div>
       <button type="button" class="mail-close" id="remarks-close" aria-label="Fermer">×</button>
       <div class="mail-brand">
-        <span class="brand-mark" aria-hidden="true"></span>
+        <img class="brand-logo" src="logo-mark.png" width="28" height="28" alt="">
         <strong>Guebre-ai</strong>
       </div>
       <div id="mail-compose">
         <h2 id="mail-heading" data-i18n="mailTitle">Envoyer une remarque</h2>
         <form id="remarks-form">
-          <input type="hidden" name="form-name" value="remarks">
           <p>
-            <label for="mail-name" data-i18n="mailName">Nom</label>
-            <input id="mail-name" name="name" type="text" maxlength="120" required autocomplete="name">
+            <label for="mail-name">
+              <span data-i18n="mailName">Votre nom</span>
+              <span class="field-hint" data-i18n="mailNameHint">Le vôtre — élève, parent ou membre du personnel</span>
+            </label>
+            <input id="mail-name" name="name" type="text" maxlength="120" required autocomplete="name" placeholder="ex. Aaron Tesfaye">
           </p>
           <p>
-            <label for="mail-email" data-i18n="mailEmail">Email</label>
-            <input id="mail-email" name="email" type="email" maxlength="160" required autocomplete="email">
+            <label for="mail-email">
+              <span data-i18n="mailEmail">Votre adresse email</span>
+              <span class="field-hint" data-i18n="mailEmailHint">La vôtre, pour que l'école puisse vous répondre</span>
+            </label>
+            <input id="mail-email" name="email" type="email" maxlength="160" required autocomplete="email" placeholder="ex. parent@email.com">
           </p>
-          <p>
-            <label for="mail-message" data-i18n="mailMessage">Message</label>
+          <p class="suggest-wrap">
+            <label for="mail-to">
+              <span data-i18n="mailTo">À qui envoyer ?</span>
+              <span class="field-hint" data-i18n="mailToHint">Tapez un nom, un service ou un rôle — des emails vous seront proposés</span>
+            </label>
+            <input id="mail-to" name="to" type="text" maxlength="160" autocomplete="off" placeholder="ex. vie scolaire, infirmerie, DAF…">
+            <input id="mail-to-email" name="toEmail" type="hidden">
+            <div id="mail-to-suggest" class="suggest-box" hidden></div>
+            <p id="mail-to-picked" class="picked-contact" hidden></p>
+          </p>
+          <p class="suggest-wrap">
+            <label for="mail-message">
+              <span data-i18n="mailMessage">Votre message</span>
+              <span class="field-hint" data-i18n="mailMessageHint">Décrivez votre remarque. Des contacts peuvent apparaître selon ce que vous écrivez.</span>
+            </label>
             <textarea id="mail-message" name="message" rows="5" maxlength="2000" required></textarea>
+            <div id="mail-msg-suggest" class="suggest-box" hidden></div>
           </p>
           <button type="submit" class="btn-primary" id="mail-send" data-i18n="mailSend">Envoyer</button>
         </form>
@@ -168,6 +181,7 @@
           <p><span data-i18n="mailTitleField">Titre</span> : <strong id="mail-preview-title">Remarques Guebre-ai</strong></p>
           <p><span data-i18n="mailDateField">Date</span> : <span id="mail-preview-date"></span></p>
           <p><span data-i18n="mailWrittenBy">Écrit par</span> : <span id="mail-preview-from"></span></p>
+          <p><span data-i18n="mailToField">Destinataire</span> : <span id="mail-preview-to"></span></p>
           <p id="mail-preview-hi" class="mail-copy"></p>
           <p id="mail-preview-body" class="mail-copy"></p>
         </div>
@@ -175,23 +189,19 @@
         <p data-i18n="mailThanksBody" class="mail-copy">Merci de nous avoir contactés ! L'équipe Guebre-ai a bien reçu votre message.</p>
         <p id="mail-thanks-cheers" class="mail-copy"></p>
         <div class="mail-sign">
-          <span class="mail-avatar" aria-hidden="true">G</span>
+          <img class="mail-avatar-img" src="logo-mark.png" width="42" height="42" alt="">
           <div>
             <strong>Guebre-ai</strong>
             <p data-i18n="mailRole">Assistant du Lycée Guebre-Mariam</p>
           </div>
         </div>
-        <p class="mail-foot">guebre-ai.netlify.app</p>
+        <p class="mail-foot">aarondanieltesfaye-crypto.github.io/Guebre-ai</p>
       </div>
     </div>
   </div>
-  <form name="remarks" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="text" name="bot-field">
-    <input type="text" name="name">
-    <input type="email" name="email">
-    <textarea name="message"></textarea>
-  </form>
   <script src="config.js"></script>
+  <script src="contacts.js"></script>
+  <script src="local-answer.js"></script>
   <script src="themes.js"></script>
   <script src="app.js"></script>
   <script src="settings-fix.js"></script>

@@ -9,7 +9,7 @@
       title: "À propos de Guebre-ai",
       lead: "Guebre-ai est l'assistant du Lycée Guebre-Mariam, établissement du réseau AEFE. Le lycée compte environ 1 800 élèves, de la maternelle à la terminale, dont environ 70 % d'Éthiopiens, parmi une cinquantaine de nationalités.",
       items: [
-        "Il répond à partir des documents de l'école — calendrier, actualités, qui contacter — et cite la source. S'il n'a pas le document, il oriente vers la vie scolaire au lieu d'inventer.",
+        "Il répond à partir des documents de l'école — calendrier, actualités, emails officiels — et cite la source. S'il n'a pas le document, il donne l'email de la vie scolaire au lieu d'inventer.",
         "Pont trilingue pour les familles : le lycée fonctionne en français. L'assistant peut expliquer une information officielle en français, en anglais ou en amharique.",
         "Les actualités donnent une raison d'ouvrir le site même sans question, et chaque annonce validée devient une source que l'assistant peut citer.",
         "Version actuelle : documents officiels et annonces. Pas de notes individuelles, pas de rédaction de devoirs."
@@ -19,7 +19,7 @@
       title: "About Guebre-ai",
       lead: "Guebre-ai is the assistant of Lycée Guebre-Mariam, an AEFE school. The campus has about 1,800 students from preschool to terminale, roughly 70% Ethiopian, across some fifty nationalities.",
       items: [
-        "It answers from school documents — calendar, news, who to ask — and cites the source. If it has no document, it sends you to vie scolaire instead of guessing.",
+        "It answers from school documents — calendar, news, official emails — and cites the source. If it has no document, it gives the vie scolaire email instead of guessing.",
         "A trilingual bridge for families: the school runs in French. The assistant can explain official information in French, English, or Amharic.",
         "News gives people a reason to open the site even without a question, and each approved post becomes a source the assistant can cite.",
         "Current version: official documents and announcements. No individual grades, no homework writing."

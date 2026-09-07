@@ -1,8 +1,9 @@
 /**
- * Configuration publique de Guebre-ai.
- * Aucune clé secrète ici. La clé Groq reste uniquement sur le serveur.
+ * Public Guebre-ai config. No secrets here.
+ * The Groq key stays on the server only (Vercel / Express env).
  */
 window.GUEBRE_CONFIG = {
-  CHAT_API_URL: "https://guebre-ai.netlify.app/.netlify/functions/chat",
+  CHAT_API_URL: "",
+  SITE_URL: "https://aarondanieltesfaye-crypto.github.io/Guebre-ai/",
   REMARKS_EMAIL: "aarondanieltesfaye@gmail.com"
 };

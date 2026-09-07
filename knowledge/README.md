@@ -1,25 +1,21 @@
-# Documents LGM pour Guebre-ai
+# LGM documents for Guebre-ai
 
-Guebre-ai n'est **pas entraîné** comme un nouveau cerveau. Il lit un corpus fixe, puis répond en citant la source. C'est plus sûr pour une école, moins cher, et plus facile à corriger.
+Guebre-ai is **not** trained as a new brain. It reads a fixed corpus, then
+answers with a source. That is safer for a school, cheaper, and easier to
+correct.
 
-## Comment ajouter un document (calendrier, circulaire, menu, etc.)
+The **who-to-email** list lives in `../contacts.js`, copied from
+https://www.guebre-mariam.org/contact/ — update that file when the school page
+changes. Never invent an email.
 
-1. Obtenez l'accord écrit de la direction (une page suffit : quels documents, qui valide, qui peut arrêter le projet).
-2. Utilisez seulement des documents **publics ou semi-publics** de l'établissement. Jamais les notes, l'assiduité ou le dossier d'un élève.
-3. Copiez le texte utile (dates, règles, horaires) dans `knowledge/lgm-corpus.js`.
-4. Remplissez `title`, `date`, `owner`, `text`.
-5. Envoyez le fichier sur GitHub. Netlify republie le site. L'assistant peut alors citer ce document.
+## How to add a document (calendar, circular, menu, …)
 
-Un PDF image (comme le calendrier) doit d'abord être relu à la main. Une date fausse est pire que pas de réponse.
+1. Get written agreement from the school leadership.
+2. Use only **public or semi-public** school documents. Never grades,
+   attendance, or a student's file.
+3. Copy the useful text (dates, rules, hours) into `knowledge/lgm-corpus.js`.
+4. Fill `title`, `date`, `owner`, `text`.
+5. Push to GitHub. GitHub Pages republishes the site.
 
-## Format
-
-```js
-{
-  id: "circulaire-sortie-12-sept",
-  title: "Circulaire sortie scolaire",
-  date: "2026-09-05",
-  owner: "Vie scolaire",
-  text: "Texte officiel recopié..."
-}
-```
+A scanned PDF must be re-read by a human first. A wrong date is worse than
+no answer.
